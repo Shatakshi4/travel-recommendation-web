@@ -1,0 +1,40 @@
+/* src/pages/Places.css */
+.places-container {
+    padding: 2rem;
+    background-color: #f7f7f7;
+    min-height: 100vh;
+}
+
+.places-container h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #333;
+}
+
+.places-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+}
+
+.place-card {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+}
+
+.place-card:hover {
+    transform: translateY(-4px);
+}
+
+.place-card h3 {
+    margin: 0;
+    color: #1e88e5;
+}
+
+.place-card p {
+    margin: 0.3rem 0;
+    color: #555;
+}

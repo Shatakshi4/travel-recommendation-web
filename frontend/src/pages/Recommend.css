@@ -1,0 +1,49 @@
+.recommend-container {
+    padding: 40px;
+    text-align: center;
+}
+
+.recommend-form {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.recommend-form input,
+.recommend-form button {
+    padding: 10px 14px;
+    font-size: 16px;
+}
+
+.results {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
+}
+
+.result-card {
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    background: white;
+    overflow: hidden;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.result-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+}
+
+.place-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.card-info {
+    padding: 10px 15px;
+}

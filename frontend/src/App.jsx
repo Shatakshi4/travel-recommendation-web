@@ -7,6 +7,10 @@ import Register from './pages/Register';
 import Recommend from './pages/Recommend';
 import Favorites from './pages/Favorites';
 import Places from './pages/Places';
+import About from './pages/About'; 
+import ContactUs from './pages/ContactUs';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+
 // import Dashboard from './pages/Dashboard';
 import PlaceDetails from './pages/PlaceDetails';
 // import Profile from './pages/Profile';
@@ -44,6 +48,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Navigate to="/home" />} />
+        
         <Route path="/home" element={<Home />} />
         <Route path="/login" element={<Login />} />
         {/* <Route path="/edit-profile" component={EditProfile} /> */}
@@ -54,6 +59,9 @@ function App() {
         {/* <Route path="/dashboard" element={<Dashboard />} /> */}
         <Route path="/place-details" element={<PlaceDetails />} />
         {/* <Route path="/profile" element={<Profile />} /> */}
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<ContactUs />} />
+<Route path="/privacy" element={<PrivacyPolicy />} />
       </Routes>
     </Router>
   );

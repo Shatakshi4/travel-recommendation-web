@@ -1,0 +1,26 @@
+.about-container {
+    padding: 3rem 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+    font-family: 'Segoe UI', sans-serif;
+    line-height: 1.8;
+    color: #333;
+  }
+  
+  .about-content h1 {
+    font-size: 32px;
+    color: #0071c2;
+    margin-bottom: 1rem;
+  }
+  
+  .about-content h2 {
+    font-size: 22px;
+    margin-top: 2rem;
+    color: #444;
+  }
+  
+  .about-content p {
+    font-size: 16px;
+    margin-bottom: 1rem;
+  }
+  

@@ -39,6 +39,9 @@ def infer_type(description):
         return 'Waterbody'
     else:
         return 'Other'
+def get_image_url(place_name):
+    """Generate a placeholder image URL (Replace this with actual logic to fetch real images)."""
+    return f"https://source.unsplash.com/400x300/?{place_name.replace(' ', '+')}"
 
 def initialize_database():
     conn = sqlite3.connect(DB_PATH)
@@ -52,7 +55,8 @@ def initialize_database():
             City TEXT,
             place_desc TEXT,
             Ratings REAL,
-            Type TEXT
+            Type TEXT,
+            Image TEXT
         )
     """)
     cursor.execute("""
@@ -93,72 +97,30 @@ def initialize_database():
         print("✅ 'places' table already populated.")
 
     conn.close()
+@app.route('/update-images', methods=['POST'])
+def update_missing_images():
+    """Update missing images in the database."""
+    conn = get_db_connection()
+    cursor = conn.cursor()
 
+    cursor.execute("SELECT Place FROM places WHERE Image IS NULL OR Image = ''")
+    places_to_update = cursor.fetchall()
 
-# Function to get recommended places for a user
-# def get_recommended_places(user):
-#     conn = get_db_connection()
-#     cursor = conn.execute("""
-#         SELECT p.Place, p.place_desc, p.Ratings, p.Type
-#         FROM places p
-#         JOIN favorites f ON p.Place = f.place_name
-#         WHERE f.username = ?
-#     """, (user,))
-#     recommended_places = [dict(row) for row in cursor.fetchall()]
-#     conn.close()
-#     return recommended_places
+    for row in places_to_update:
+        place_name = row['Place']
+        image_url = get_image_url(place_name)
+        cursor.execute("UPDATE places SET Image = ? WHERE Place = ?", (image_url, place_name))
 
-# Function to get user's favorite places
-# def get_favorite_places(user):
-#     conn = get_db_connection()
-#     cursor = conn.execute("""
-#         SELECT p.Place, p.place_desc, p.Ratings, p.Type
-#         FROM places p
-#         JOIN favorites f ON p.Place = f.place_name
-#         WHERE f.username = ?
-#     """, (user,))
-#     favorite_places = [dict(row) for row in cursor.fetchall()]
-#     conn.close()
-#     return favorite_places
+    conn.commit()
+    conn.close()
+
+    return jsonify({"msg": f"Updated images for {len(places_to_update)} places."}), 200
 
 
 @app.route('/')
 def home():
     return "Hello, Flask is running!"
 
-# @app.route('/user-profile', methods=['GET'])
-# @jwt_required()
-# def get_user_profile():
-#     current_user = get_jwt_identity()  # Get username from the JWT token
-#     # Assuming user data is stored in a database or user object
-#     conn = get_db_connection()
-#     user = conn.execute("SELECT username FROM users WHERE username = ?", (current_user,)).fetchone()
-#     conn.close()
-
-#     if user:
-#         return jsonify({
-#             'name': user['username'],  # You can add more details like email if stored
-#             'email': f"{user['username']}@example.com"  # Placeholder email or fetch from DB
-#         }), 200
-#     else:
-#         return jsonify({"msg": "User not found"}), 404
-
-
-# @app.route('/dashboard', methods=['GET'])
-# @jwt_required()
-# def get_dashboard_data():
-#     current_user = get_jwt_identity()
-    
-#     # Fetch recommended places for the user
-#     recommended_places = get_recommended_places(current_user)
-
-#     # Fetch user's favorite places
-#     favorite_places = get_favorite_places(current_user)
-
-#     return jsonify({
-#         'recommended': recommended_places,
-#         'favorites': favorite_places
-#     }), 200
 
 @app.route('/recommend', methods=['POST'])
 def recommend():

@@ -1,29 +1,48 @@
 .dashboard {
-    padding: 20px;
-    font-family: Arial, sans-serif;
-}
-
-.filter-box {
-    margin-bottom: 20px;
-}
-
-.filter-box select,
-.filter-box button {
-    padding: 8px;
-    margin-right: 10px;
-    font-size: 16px;
-}
-
-.places-list {
+    padding: 2rem;
+    font-family: 'Segoe UI', sans-serif;
+    max-width: 1000px;
+    margin: auto;
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+    color: #333;
+  }
+  
+  .section {
+    margin-top: 2rem;
+  }
+  
+  .card-row {
     display: flex;
+    gap: 1rem;
     flex-wrap: wrap;
-    gap: 20px;
-}
-
-.place-card {
-    border: 1px solid #ccc;
-    padding: 15px;
-    width: 250px;
-    background: #f9f9f9;
-    border-radius: 6px;
-}
+    margin-top: 1rem;
+  }
+  
+  .card {
+    background-color: #f7f7f7;
+    padding: 1rem;
+    border-radius: 12px;
+    flex: 1 1 200px;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+    background-color: #e0f7fa;
+  }
+  
+  .logout-btn {
+    margin-top: 2rem;
+    padding: 0.8rem 1.2rem;
+    border: none;
+    background-color: #e53935;
+    color: white;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  

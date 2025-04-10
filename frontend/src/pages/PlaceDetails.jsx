@@ -37,12 +37,13 @@ const PlaceDetails = () => {
 
   return (
     <div className="place-details-container">
-      <h2>{place.Place}</h2>
-      <p><strong>State:</strong> {place.State}</p>
-      <p><strong>City:</strong> {place.City}</p>
-      <p><strong>Rating:</strong> {place.Ratings}</p>
-      <p><strong>Type:</strong> {place.Type}</p>
-      <p><strong>Description:</strong> {place.Place_desc}</p>
+      
+      <h2>{place.Place || place.name}</h2>
+<p><strong>State:</strong> {place.State || 'N/A'}</p>
+<p><strong>City:</strong> {place.City || place.name}</p>
+<p><strong>Rating:</strong> {place.Ratings || 'Not rated'}</p>
+<p><strong>Type:</strong> {place.Type || place.knownFor}</p>
+<p><strong>Description:</strong> {place.Place_desc || place.description}</p>
 
       <div className="map-container">
         <iframe

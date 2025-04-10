@@ -62,3 +62,59 @@
 // };
 
 // export default Dashboard;
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import './Dashboard.css';
+
+const Dashboard = () => {
+  const navigate = useNavigate();
+
+  // Sample user data (can be fetched from JWT/localStorage/API)
+  const user = {
+    name: 'John Doe',
+    email: 'john@example.com',
+    favorites: ['Goa', 'Jaipur', 'Kolkata'],
+    recommendations: ['Delhi', 'Chennai', 'Mumbai']
+  };
+
+  const handleLogout = () => {
+    // Clear token or user session
+    localStorage.removeItem('token');
+    navigate('/');
+  };
+
+  return (
+    <div className="dashboard">
+      <h1>Welcome back, {user.name} 👋</h1>
+      <p>Email: {user.email}</p>
+
+      <section className="section">
+        <h2>🌟 Recommended for You</h2>
+        <div className="card-row">
+          {user.recommendations.map((place, index) => (
+            <div key={index} className="card" onClick={() => navigate(`/place-details`, { state: { place: { name: place } } })}>
+              <h3>{place}</h3>
+              <p>Explore amazing experiences</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="section">
+        <h2>❤️ Your Favorites</h2>
+        <div className="card-row">
+          {user.favorites.map((place, index) => (
+            <div key={index} className="card">
+              <h3>{place}</h3>
+              <p>Saved to your list</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <button className="logout-btn" onClick={handleLogout}>Logout</button>
+    </div>
+  );
+};
+
+export default Dashboard;

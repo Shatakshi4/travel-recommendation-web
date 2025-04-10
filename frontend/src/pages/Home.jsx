@@ -81,9 +81,15 @@ const Home = () => {
         <h2>Popular cities to visit in India</h2>
         <div className="scroll-container">
           <button className="scroll-btn left" onClick={() => scroll('left')}>&lt;</button>
+          
           <div className="card-row" ref={scrollRef}>
             {cities.map((city, idx) => (
-              <div className="city-card" key={idx}>
+              <div
+              className="city-card"
+              key={idx}
+              onClick={() => navigate('/place-details', { state: { place: city, fromFavorites: false } })}
+            >
+            
                 <img src={city.img} alt={city.name} />
                 <div className="card-info">
                   <h3>{city.name}</h3>
@@ -111,6 +117,7 @@ const Home = () => {
     <p onClick={() => navigate('/contact')}>Contact Us</p>
     <p onClick={() => navigate('/privacy')}>Privacy Policy</p>
     <p onClick={() => navigate('/terms')}>Terms & Conditions</p>
+    
   </div>
   <div className="footer-disclaimer">
     © 2025 TravelMate Technologies Pvt. Ltd., a TravelMate Group company. All rights reserved. TravelMate and the TravelMate Logo are trademarks or registered trademarks of TravelMate Technologies Pvt. Ltd.

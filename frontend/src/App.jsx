@@ -11,7 +11,7 @@ import About from './pages/About';
 import ContactUs from './pages/ContactUs';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 
-// import Dashboard from './pages/Dashboard';
+import Dashboard from './pages/Dashboard';
 import PlaceDetails from './pages/PlaceDetails';
 // import Profile from './pages/Profile';
 // import EditProfile from './pages/EditProfile';
@@ -56,7 +56,7 @@ function App() {
         <Route path="/recommend" element={<Recommend onSubmit={handleSubmit} results={results} />} />
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/places" element={<Places />} />
-        {/* <Route path="/dashboard" element={<Dashboard />} /> */}
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/place-details" element={<PlaceDetails />} />
         {/* <Route path="/profile" element={<Profile />} /> */}
         <Route path="/about" element={<About />} />

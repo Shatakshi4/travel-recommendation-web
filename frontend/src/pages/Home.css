@@ -6,7 +6,9 @@
     color: #333;
   }
   
+  /* Hero Section */
   .hero {
+    position: relative;
     background: linear-gradient(135deg, #3a8ef0, #6dd5fa);
     color: white;
     padding: 3rem 2rem;
@@ -14,6 +16,63 @@
     border-radius: 0 0 30px 30px;
   }
   
+  /* Topbar */
+  .topbar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background-color: #fff;
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+  
+  .topbar-right button {
+    margin-left: 1rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  .topbar-right button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Auth Buttons in Hero */
+  .hero-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .auth-buttons {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .auth-buttons button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .auth-buttons button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Popular Destinations */
   .popular-destinations {
     padding: 2rem;
   }
@@ -23,6 +82,7 @@
     margin-bottom: 1rem;
   }
   
+  /* Horizontal Scrollable Cards */
   .scroll-container {
     position: relative;
     display: flex;
@@ -32,13 +92,15 @@
   .card-row {
     display: flex;
     overflow-x: auto;
+    flex-wrap: nowrap; /* 🚨 Ensure cards stay in a row */
     scroll-behavior: smooth;
     padding-bottom: 1rem;
     scrollbar-width: none;
   }
   
+  
   .card-row::-webkit-scrollbar {
-    display: none;
+    display: none; /* Chrome, Safari */
   }
   
   .city-card {
@@ -89,6 +151,7 @@
     color: #555;
   }
   
+  /* Scroll Buttons */
   .scroll-btn {
     position: absolute;
     top: 35%;
@@ -115,6 +178,7 @@
     right: 0;
   }
   
+  /* Footer */
   .footer {
     background-color: #f8f8f8;
     padding: 20px 30px;
@@ -147,64 +211,11 @@
     color: #666;
     margin-top: 10px;
   }
-  .hero {
-    position: relative;
-    background-color: #f0f8ff;
-    padding: 2rem;
-    text-align: center;
-  }
   
-  .hero-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .auth-buttons {
-    display: flex;
-    gap: 1rem;
-  }
-  
-  .auth-buttons button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .auth-buttons button:hover {
-    background-color: #0056b3;
-  }
-  /* Topbar Styles */
-.topbar {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    background-color: #fff;
-    padding: 1rem 2rem;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-  }
-  
-  .topbar-right button {
-    margin-left: 1rem;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 500;
-    font-size: 0.9rem;
-    transition: background-color 0.3s ease;
-  }
-  
-  .topbar-right button:hover {
-    background-color: #0056b3;
+  /* Optional: Responsive scroll button hiding on small devices */
+  @media (max-width: 768px) {
+    .scroll-btn {
+      display: none;
+    }
   }
   

@@ -19,7 +19,7 @@ const Navbar = () => {
         <li><Link to="/recommend">Recommendations</Link></li>
         <li><Link to="/favorites">Favorites</Link></li>
         <li><Link to="/dashboard">Dashboard</Link></li>
-        <li><Link to="/profile">Profile</Link></li>
+        <li><Link to="/places">All places</Link></li>
         <li><button onClick={handleLogout}>Logout</button></li>
       </ul>
     </nav>

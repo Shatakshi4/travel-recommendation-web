@@ -24,8 +24,8 @@ function Login({ setToken }) {
       const data = await res.json();
       if (res.ok) {
         localStorage.setItem("token", data.access_token);
-        // setToken(data.access_token);
-        navigate("/dashboard");
+        // setToken(data.access_token); // Optional, if you're lifting token to parent
+        navigate("/"); // ✅ redirect to homepage instead of /dashboard
       } else {
         setError(data.msg || "Login failed");
       }

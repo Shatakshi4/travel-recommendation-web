@@ -37,6 +37,23 @@ const PlaceDetails = () => {
 
   return (
     <div className="place-details-container">
+      {/* ✅ Display Place Image */}
+      <div className="image-container">
+        {place.image ? (
+          <img
+            src={place.image}
+            alt={place.Place || 'Place Image'}
+            className="place-image"
+            onError={(e) => (e.target.src = "/default-image.jpg")} // Fallback if image fails
+          />
+        ) : (
+          <img
+            src="/default-image.jpg"
+            alt="No Image Available"
+            className="place-image"
+          />
+        )}
+      </div>
       
       <h2>{place.Place || place.name}</h2>
 <p><strong>State:</strong> {place.State || 'N/A'}</p>

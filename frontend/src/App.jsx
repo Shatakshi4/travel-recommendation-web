@@ -10,7 +10,12 @@ import Places from './pages/Places';
 import About from './pages/About'; 
 import ContactUs from './pages/ContactUs';
 import PrivacyPolicy from './pages/PrivacyPolicy';
-
+import BlogDelhi from './pages/BlogDelhi';
+import BlogChennai from './pages/BlogChennai';
+import BlogKolkata from './pages/BlogKolkata';
+import BlogMumbai from './pages/BlogMumbai';
+import BlogJaipur from './pages/BlogJaipur';
+import BlogGoa from './pages/BlogGoa';
 import Dashboard from './pages/Dashboard';
 import PlaceDetails from './pages/PlaceDetails';
 // import Profile from './pages/Profile';
@@ -58,6 +63,14 @@ function App() {
         <Route path="/places" element={<Places />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/place-details" element={<PlaceDetails />} />
+
+<Route path="/blog/delhi" element={<BlogDelhi />} />
+<Route path="/blog/chennai" element={<BlogChennai />} />
+<Route path="/blog/kolkata" element={<BlogKolkata />} />
+<Route path="/blog/mumbai" element={<BlogMumbai />} />
+<Route path="/blog/jaipur" element={<BlogJaipur />} />
+<Route path="/blog/goa" element={<BlogGoa />} />
+
         {/* <Route path="/profile" element={<Profile />} /> */}
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<ContactUs />} />

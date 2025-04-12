@@ -1,6 +1,7 @@
 // src/pages/Favorites.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';  // ✅ Import Link
 import './Favorites.css';
 
 const Favorites = () => {
@@ -73,8 +74,11 @@ const Favorites = () => {
         <div className="favorites-grid">
           {combinedPlaces.map((place, index) => (
             <div className="favorite-card" key={index}>
+              {/* ✅ Wrap the card with Link to navigate to PlaceDetails */}
+              <Link to={`/placedetails/${place.place_name}`} className="place-link">
               <h3>{place.place_name}</h3>
               <p><strong>State:</strong> {place.state}</p>
+              </Link>
               <button className="remove-btn" onClick={() => removeFavorite(place.place_name, place.state)}>
                 Remove
               </button>

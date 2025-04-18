@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Acknowledgement from "./Acknowledgement";
 import './Home.css';
 
 const cities = [
@@ -51,7 +52,7 @@ const cities = [
 const Home = () => {
   const navigate = useNavigate();
   const scrollRef = useRef(null);
-
+  
   const scroll = (direction) => {
     const { current } = scrollRef;
     if (current) {
@@ -61,7 +62,7 @@ const Home = () => {
   };
 
   return (
-    <div className="home-main">
+    <div className="home-main ${darkMode ? 'dark' : ''}`}">
       {/* Topbar */}
       <div className="topbar">
         <div className="topbar-right">
@@ -112,6 +113,9 @@ const Home = () => {
           <button className="scroll-btn right" onClick={() => scroll('right')}>&gt;</button>
         </div>
       </section>
+
+      {/* Add acknowledgement just above the footer */}
+      <Acknowledgement />
 
       {/* Footer Section */}
       <footer className="footer">

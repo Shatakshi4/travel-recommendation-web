@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './Recommend.css';
 import { useNavigate } from 'react-router-dom';
 
+
 const Recommend = () => {
   const [form, setForm] = useState({
     state: '',
@@ -14,6 +15,8 @@ const Recommend = () => {
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
   const [types, setTypes] = useState([]);
+  const [viewMode, setViewMode] = useState('grid');
+  const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -48,6 +51,7 @@ const Recommend = () => {
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -90,6 +94,35 @@ const Recommend = () => {
     }
   };
 
+    const handleSort = (sortBy) => {
+    let sorted = [...results];
+    if (sortBy === 'rating') {
+      sorted.sort((a, b) => b.Ratings - a.Ratings);
+    } else if (sortBy === 'alphabetical') {
+      sorted.sort((a, b) => a.Place.localeCompare(b.Place));
+    } else if (sortBy === 'state') {
+      sorted.sort((a, b) => a.State.localeCompare(b.State));
+    }
+    setResults(sorted);
+  };
+
+  const showRandom = () => {
+    const shuffled = [...results].sort(() => 0.5 - Math.random());
+    setResults(shuffled.slice(0, 5));
+  };
+
+  const resetFilters = () => {
+    setForm({ state: '', city: '', type: '' });
+    setResults([]);
+    setMessage('');
+    setSearchQuery('');
+  };
+
+  const filteredResults = results.filter(place =>
+    place.Place.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+
   return (
     <div className="recommend-container">
       <h2>Find Travel Recommendations</h2>
@@ -111,12 +144,33 @@ const Recommend = () => {
         </select>
 
         <button type="submit">Search</button>
+        <button type="button" onClick={resetFilters}>Reset Filters</button>
       </form>
+
+       <div className="recommend-controls">
+        <input
+          type="text"
+          placeholder="Search place name..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+
+        <select onChange={(e) => handleSort(e.target.value)}>
+          <option value="">Sort By</option>
+          <option value="rating">Rating (High to Low)</option>
+          <option value="alphabetical">Alphabetical (A–Z)</option>
+          <option value="state">State</option>
+        </select>
+
+        <button onClick={showRandom}>Surprise Me!</button>
+        <button onClick={() => setViewMode('grid')}>Grid View</button>
+        <button onClick={() => setViewMode('list')}>List View</button>
+      </div>
 
       {message && <p className="recommend-message">{message}</p>}
 
-      <div className="results">
-        {results.map((place, index) => (
+            <div className={`results ${viewMode === 'list' ? 'list-view' : 'grid-view'}`}>
+        {filteredResults.map((place, index) =>  (
           <div key={index} className="result-card">
             <h3>{place.Place}</h3>
             <p><strong>State:</strong> {place.State}</p>

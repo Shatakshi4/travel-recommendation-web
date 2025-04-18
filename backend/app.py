@@ -25,20 +25,43 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
-def infer_type(description):
-    desc = description.lower()
-    if 'beach' in desc:
-        return 'Beach'
-    elif 'hill' in desc or 'mountain' in desc:
+# def infer_type(description):
+#     desc = description.lower()
+#     if 'beach' in desc:
+#         return 'Beach'
+#     elif 'hill' in desc or 'mountain' in desc:
+#         return 'Hill Station'
+#     elif 'temple' in desc or 'fort' in desc or 'heritage' in desc:
+#         return 'Historical Site'
+#     elif 'forest' in desc or 'wildlife' in desc:
+#         return 'Nature/Wildlife'
+#     elif 'lake' in desc or 'river' in desc:
+#         return 'Waterbody'
+#     else:
+#         return 'Other'
+
+def infer_type(place_name):
+    place_name = place_name.lower()
+
+    hill_keywords = ['manali', 'leh', 'darjeeling', 'nainital', 'ooty', 'mussoorie', 'shimla']
+    beach_keywords = ['goa', 'pondicherry', 'kanyakumari', 'kovalam', 'alibaug']
+    heritage_keywords = ['hampi', 'udaipur', 'jaipur', 'mysore', 'agra', 'delhi', 'khajuraho']
+    religious_keywords = ['varanasi', 'rameshwaram', 'tirupati', 'shirdi', 'ayodhya']
+    adventure_keywords = ['rishikesh', 'auli', 'spiti', 'gulmarg']
+
+    if any(word in place_name for word in hill_keywords):
         return 'Hill Station'
-    elif 'temple' in desc or 'fort' in desc or 'heritage' in desc:
-        return 'Historical Site'
-    elif 'forest' in desc or 'wildlife' in desc:
-        return 'Nature/Wildlife'
-    elif 'lake' in desc or 'river' in desc:
-        return 'Waterbody'
+    elif any(word in place_name for word in beach_keywords):
+        return 'Beach'
+    elif any(word in place_name for word in heritage_keywords):
+        return 'Heritage'
+    elif any(word in place_name for word in religious_keywords):
+        return 'Religious'
+    elif any(word in place_name for word in adventure_keywords):
+        return 'Adventure'
     else:
         return 'Other'
+
 def get_image_url(place_name):
     """Generate a placeholder image URL (Replace this with actual logic to fetch real images)."""
     return f"https://source.unsplash.com/400x300/?{place_name.replace(' ', '+')}"
@@ -141,6 +164,7 @@ def recommend():
     if type_:
         query += " AND lower(Type) = ?"
         params.append(type_)
+        
 
     query += " LIMIT 10"
 
@@ -289,6 +313,15 @@ def get_cities():
     conn.close()
 
     return jsonify(sorted(cities))
+
+@app.route('/api/acknowledgement', methods=['GET'])
+def get_acknowledgement():
+    data = {
+        "title": "Respect for Cultural Heritage",
+        "message": "We honour the diverse cultures, traditions, and spiritual heritage of India. From the sacred peaks of the Himalayas to the coastal temples of the South, we recognize the guardianship of our rich history, nature, and communities across every region of this vibrant land.",
+        "link": "#"
+    }
+    return jsonify(data)
 
 
 if __name__ == '__main__':

@@ -3,6 +3,8 @@ import pandas as pd
 import os
 import requests
 
+
+
 # 🌍 Wikipedia API - First Attempt to Fetch Images
 def get_wikipedia_image(place_name):
     """Fetch an image from Wikipedia API."""
@@ -156,7 +158,10 @@ def load_csv_to_sqlite():
             if any(word in text for word in ['zoo', 'garden']): return 'Recreational'
             return 'Other'
 
-        df['Type'] = df.apply(lambda row: classify(f"{row['Place_desc']} {row['Place']}"), axis=1)
+        # df['Type'] = df.apply(lambda row: classify(f"{row['Place_desc']} {row['Place']}"), axis=1)
+        # Add a new column by applying the function
+            df['Type'] = df['Place'].apply(infer_type)
+
 
                # 📸 Fetch images
         print("🔍 Fetching images for each place...")

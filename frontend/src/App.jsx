@@ -18,6 +18,8 @@ import BlogJaipur from './pages/BlogJaipur';
 import BlogGoa from './pages/BlogGoa';
 import Dashboard from './pages/Dashboard';
 import PlaceDetails from './pages/PlaceDetails';
+import PrivateRoute from './components/PrivateRoute';
+
 // import Profile from './pages/Profile';
 // import EditProfile from './pages/EditProfile';
 
@@ -58,7 +60,15 @@ function App() {
         <Route path="/login" element={<Login />} />
         {/* <Route path="/edit-profile" component={EditProfile} /> */}
         <Route path="/register" element={<Register />} />
-        <Route path="/recommend" element={<Recommend onSubmit={handleSubmit} results={results} />} />
+        <Route
+  path="/recommend"
+  element={
+    <PrivateRoute>
+      <Recommend onSubmit={handleSubmit} results={results} />
+    </PrivateRoute>
+  }
+/>
+
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/places" element={<Places />} />
         <Route path="/dashboard" element={<Dashboard />} />

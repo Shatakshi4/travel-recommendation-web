@@ -21,7 +21,7 @@ const Places = () => {
   return (
     <div className="places-container">
       <h2>All Travel Places</h2>
-      <div className="places-list">
+       <div className="places-list">
         {places.map((place, index) => (
            <div key={index} className="place-card" onClick={() => handlePlaceClick(place)}>
             {/* ✅ Display Image URL from Database */}
@@ -53,3 +53,5 @@ const Places = () => {
 };
 
 export default Places;
+
+

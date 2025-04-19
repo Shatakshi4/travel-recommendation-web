@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import Acknowledgement from "./Acknowledgement";
 import './Home.css';
@@ -52,6 +52,8 @@ const cities = [
 const Home = () => {
   const navigate = useNavigate();
   const scrollRef = useRef(null);
+  const [searchTerm, setSearchTerm] = useState('');
+
   
   const scroll = (direction) => {
     const { current } = scrollRef;
@@ -61,10 +63,27 @@ const Home = () => {
     }
   };
 
-  return (
-    <div className="home-main ${darkMode ? 'dark' : ''}`}">
+   const filteredCities = cities.filter(city =>
+    city.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    city.knownFor.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    city.reasons.some(reason => reason.toLowerCase().includes(searchTerm.toLowerCase()))
+  );
+
+   return (
+    <div className="home-main">
       {/* Topbar */}
       <div className="topbar">
+          <div className="topbar-left" />
+        
+        <div className="topbar-center">
+        <input
+          type="text"
+          placeholder="Search places or cities..."
+          className="search-bar"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        </div>
         <div className="topbar-right">
           <button onClick={() => navigate('/login')}>Login</button>
           <button onClick={() => navigate('/register')}>Register</button>
@@ -73,8 +92,8 @@ const Home = () => {
 
       {/* Hero Section */}
       <header className="hero">
-        <h1>Welcome to TravelMate 🌍</h1>
-        <p>Your Smart Travel Recommendation Companion</p>
+        <h1>WanderGo✈️  </h1>
+        <p>Go where your heart wanders.</p>
       </header>
 
       {/* Popular Cities Section */}
@@ -85,33 +104,69 @@ const Home = () => {
           <button className="scroll-btn left" onClick={() => scroll('left')}>&lt;</button>
 
           <div className="card-row" ref={scrollRef}>
-            {cities.map((city, idx) => (
-              <div
-                className="city-card"
-                key={idx}
-                onClick={() => navigate(`/blog/${city.name.toLowerCase()}`)}
-
-              >
-                <img src={city.img} alt={city.name} />
-                <div className="card-info">
-                  <h3>{city.name}</h3>
-                  <p className="tagline">Known for {city.knownFor}</p>
-                  <p className="desc">{city.description}</p>
-                  <div className="reasons">
-                    <strong>Reasons to visit:</strong>
-                    <ul>
-                      {city.reasons.map((reason, i) => (
-                        <li key={i}>{reason}</li>
-                      ))}
-                    </ul>
+            {filteredCities.length === 0 ? (
+              <p style={{ padding: '1rem', color: 'gray' }}>No matching cities or places found.</p>
+            ) : (
+              filteredCities.map((city, idx) => (
+                <div
+                  className="city-card"
+                  key={idx}
+                  onClick={() => navigate(`/blog/${city.name.toLowerCase()}`)}
+                >
+                  <img src={city.img} alt={city.name} />
+                  <div className="card-info">
+                    <h3>{city.name}</h3>
+                    <p className="tagline">Known for {city.knownFor}</p>
+                    <p className="desc">{city.description}</p>
+                    <div className="reasons">
+                      <strong>Reasons to visit:</strong>
+                      <ul>
+                        {city.reasons.map((reason, i) => (
+                          <li key={i}>{reason}</li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
 
           <button className="scroll-btn right" onClick={() => scroll('right')}>&gt;</button>
         </div>
+      </section>
+      
+      
+       {/* About WanderGo */}
+      <section className="about-section">
+        <h2>What is WanderGo?</h2>
+        <p>WanderGo is your personalized travel companion designed to help you discover the best destinations across India. Whether you're planning a weekend getaway or a cultural expedition, we provide AI-powered recommendations tailored to your preferences.</p>
+      </section>
+      
+      {/* How it works */}
+      <section className="how-it-works">
+        <h2>How It Works</h2>
+        <div className="steps">
+          <div className="step">
+            <h3>1. Sign Up or Log In</h3>
+            <p>Create an account to access personalized features.</p>
+          </div>
+          <div className="step">
+            <h3>2. Get Recommendations</h3>
+            <p>Receive suggestions based on your interests, budget, and travel style.</p>
+          </div>
+          <div className="step">
+            <h3>3. Explore & Favorite</h3>
+            <p>Save your favorite places, plan trips, and discover hidden gems.</p>
+          </div>
+        </div>
+      </section>
+
+       {/* Call to Action */}
+      <section className="cta">
+        <h2>Ready to Wander?</h2>
+        <p>Sign up today to get curated recommendations and start your next adventure!</p>
+        <button className="get-started-btn" onClick={() => navigate('/register')}>Get Started</button>
       </section>
 
       {/* Add acknowledgement just above the footer */}

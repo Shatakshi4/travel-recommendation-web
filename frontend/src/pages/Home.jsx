@@ -160,8 +160,7 @@ const Home = () => {
             <p>Save your favorite places, plan trips, and discover hidden gems.</p>
           </div>
         </div>
-      </section>
-
+      </section> 
        {/* Call to Action */}
       <section className="cta">
         <h2>Ready to Wander?</h2>

@@ -24,21 +24,13 @@ const Places = () => {
        <div className="places-list">
         {places.map((place, index) => (
            <div key={index} className="place-card" onClick={() => handlePlaceClick(place)}>
-            {/* ✅ Display Image URL from Database */}
-            {place.image ? (
-              <img
-                src={place.image} // Directly use image URL from the database
-                alt={place.Place_Name}
-                className="place-image"
-                onError={(e) => (e.target.src = "/default-image.jpg")} // Fallback for broken images
-              />
-            ) : (
-              <img
-                src="/default-image.jpg" // Default image if no image is available
-                alt="No Image Available"
-                className="place-image"
-              />
-            )}
+             {/* ✅ Use single_image if available, else image, else default */}
+            <img
+              src={place.single_image || place.image || "/default-image.jpg"}
+              alt={place.Place || "Travel Place"}
+              className="place-image"
+              onError={(e) => (e.target.src = "/default-image.jpg")}
+            />
             <h3>{place.Place_Name}</h3>
             <h3>{place.Place || "Unknown Place"}</h3> {/* ⬅️ Place Name Below State */}
             <p><strong>State:</strong> {place.State}</p>

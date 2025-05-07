@@ -1,4 +1,4 @@
-import React, { useRef, useState} from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Acknowledgement from "./Acknowledgement";
 import './Home.css';
@@ -53,7 +53,13 @@ const Home = () => {
   const navigate = useNavigate();
   const scrollRef = useRef(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+   // ✅ Check login status on component mount
+  useEffect(() => {
+    const token = localStorage.getItem('token'); // or 'isLoggedIn'
+    setIsLoggedIn(!!token);
+  }, []);
   
   const scroll = (direction) => {
     const { current } = scrollRef;
@@ -68,6 +74,15 @@ const Home = () => {
     city.knownFor.toLowerCase().includes(searchTerm.toLowerCase()) ||
     city.reasons.some(reason => reason.toLowerCase().includes(searchTerm.toLowerCase()))
   );
+
+   // ✅ Get Started click handler (modified)
+  const handleGetStartedClick = () => {
+    if (isLoggedIn) {
+      navigate('/recommend');
+    } else {
+      navigate('/register');
+    }
+  };
 
    return (
     <div className="home-main">
@@ -85,8 +100,13 @@ const Home = () => {
         />
         </div>
         <div className="topbar-right">
-          <button onClick={() => navigate('/login')}>Login</button>
-          <button onClick={() => navigate('/register')}>Register</button>
+         {/* ✅ Show buttons only when NOT logged in */}
+          {!isLoggedIn && (
+            <>
+              <button onClick={() => navigate('/login')}>Login</button>
+              <button onClick={() => navigate('/register')}>Register</button>
+            </>
+          )}
         </div>
       </div>
 
@@ -165,7 +185,9 @@ const Home = () => {
       <section className="cta">
         <h2>Ready to Wander?</h2>
         <p>Sign up today to get curated recommendations and start your next adventure!</p>
-        <button className="get-started-btn" onClick={() => navigate('/register')}>Get Started</button>
+        <button className="get-started-btn" onClick={handleGetStartedClick}>
+          Get Started
+        </button>
       </section>
 
       {/* Add acknowledgement just above the footer */}

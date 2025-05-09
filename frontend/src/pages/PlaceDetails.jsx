@@ -8,6 +8,37 @@ const PlaceDetails = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const place = location.state?.place;
+  
+  const [reviews, setReviews] = useState([]);
+const [newReview, setNewReview] = useState('');
+
+useEffect(() => {
+  const fetchReviews = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5000/reviews?place=${place.Place}`);
+      setReviews(res.data);
+    } catch (err) {
+      console.error("Error fetching reviews", err);
+    }
+  };
+  fetchReviews();
+}, [place.Place]);
+
+const handleSubmitReview = async () => {
+  try {
+    await axios.post(
+      'http://localhost:5000/reviews',
+      { place: place.Place, review: newReview },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    setNewReview('');
+    const updated = await axios.get(`http://localhost:5000/reviews?place=${place.Place}`);
+    setReviews(updated.data);
+  } catch (err) {
+    alert('Failed to post review');
+  }
+};
+
 
   if (!place) {
     return <div className="place-details-container">Invalid Place</div>;
@@ -84,6 +115,25 @@ const PlaceDetails = () => {
   </div>
 </div>
 
+{/* ✍️ Reviews Section */}
+<div className="reviews-section">
+  <h3>User Reviews</h3>
+  <ul>
+    {reviews.map((r, i) => (
+      <li key={i}><strong>{r.username}:</strong> {r.review}</li>
+    ))}
+  </ul>
+  {token && (
+    <div className="add-review">
+      <textarea
+        placeholder="Write your review..."
+        value={newReview}
+        onChange={(e) => setNewReview(e.target.value)}
+      />
+      <button onClick={handleSubmitReview}>Submit Review</button>
+    </div>
+  )}
+</div>
 
       
       {/* ✅ Image Gallery from 'images' column */}

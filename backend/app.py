@@ -86,18 +86,9 @@ def initialize_database():
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS reviews (
             username TEXT,
-            place TEXT,
-            review TEXT,
-            PRIMARY KEY (username, place),
-            FOREIGN KEY (username) REFERENCES users(username)
-        )
-    """)
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS itinerary (
-            username TEXT,
             place_name TEXT,
-            state TEXT,
-            PRIMARY KEY (username, place_name, state),
+            review TEXT,
+            PRIMARY KEY (username, place_name),
             FOREIGN KEY (username) REFERENCES users(username)
         )
     """)
@@ -306,6 +297,48 @@ def get_acknowledgement():
         "link": "#"
     }
     return jsonify(data)
+
+@app.route('/reviews', methods=['POST'])
+@jwt_required()
+def add_review():
+    username = get_jwt_identity()
+    data = request.json
+    place = data.get('place_name')
+    review = data.get('review')
+
+    if not place or not review:
+        return jsonify({'msg': 'Place and review are required'}), 400
+
+    conn = get_db_connection()
+    try:
+        conn.execute(
+            'INSERT OR REPLACE INTO reviews (username, place_name, review) VALUES (?, ?, ?)',
+            (username, place, review)
+        )
+        conn.commit()
+    finally:
+        conn.close()
+
+    return jsonify({'msg': 'Review added successfully'}), 200
+
+
+@app.route('/reviews', methods=['GET'])
+def get_reviews():
+    place = request.args.get('place_name')
+
+    if not place:
+        return jsonify({'msg': 'Place is required'}), 400
+
+    conn = get_db_connection()
+    cursor = conn.execute(
+        'SELECT username, review FROM reviews WHERE place = ?',
+        (place,)
+    )
+    results = [dict(row) for row in cursor.fetchall()]
+    conn.close()
+
+    return jsonify(results)
+
 
 
 if __name__ == '__main__':

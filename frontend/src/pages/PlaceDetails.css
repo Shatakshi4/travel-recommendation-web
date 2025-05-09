@@ -165,3 +165,68 @@
     overflow: hidden;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
+
+/* ✍️ Reviews Section */
+.reviews-section {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.reviews-section h3 {
+    font-size: 22px;
+    margin-bottom: 15px;
+    color: #444;
+}
+
+.reviews-section ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+.reviews-section li {
+    background-color: #f9f9f9;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.reviews-section li strong {
+    color: #333;
+}
+
+/* ✅ Add Review Form */
+.add-review {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.add-review textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 10px 12px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    resize: vertical;
+    font-family: inherit;
+}
+
+.add-review button {
+    align-self: flex-end;
+    padding: 8px 16px;
+    background-color: #0077cc;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.add-review button:hover {
+    background-color: #005fa3;
+}

@@ -78,11 +78,31 @@ def create_favorites_table():
     finally:
         conn.close()
 
+def create_reviews_table():
+    conn = sqlite3.connect('travel.db')
+    try:
+        conn.execute('''
+            CREATE TABLE IF NOT EXISTS reviews (
+                username TEXT,
+                place_name TEXT,
+                review TEXT,
+                PRIMARY KEY (username, place_name),
+                FOREIGN KEY (username) REFERENCES users(username)
+            );
+        ''')
+        conn.commit()
+        print("✅ 'reviews' table created or already exists.")
+    except Exception as e:
+        print(f"❌ Error creating reviews table: {e}")
+    finally:
+        conn.close()
+
 # 🚀 Main runner
 if __name__ == '__main__':
     create_users_table()
     create_favorites_table()
     load_csv_to_sqlite()
+    create_reviews_table()
 
     conn = sqlite3.connect('travel.db')
     try:

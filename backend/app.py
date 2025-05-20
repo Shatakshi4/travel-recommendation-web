@@ -4,6 +4,8 @@ import sqlite3
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from flask_cors import CORS
+# from model import db, User, Favorite, Itinerary, Review
+
 # from your_database_module import get_user_recommendations, get_user_favorites
 import os
 
@@ -25,20 +27,6 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
-# def infer_type(description):
-#     desc = description.lower()
-#     if 'beach' in desc:
-#         return 'Beach'
-#     elif 'hill' in desc or 'mountain' in desc:
-#         return 'Hill Station'
-#     elif 'temple' in desc or 'fort' in desc or 'heritage' in desc:
-#         return 'Historical Site'
-#     elif 'forest' in desc or 'wildlife' in desc:
-#         return 'Nature/Wildlife'
-#     elif 'lake' in desc or 'river' in desc:
-#         return 'Waterbody'
-#     else:
-#         return 'Other'
 
 def infer_type(place_name):
     place_name = place_name.lower()
@@ -62,10 +50,6 @@ def infer_type(place_name):
     else:
         return 'Other'
 
-def get_image_url(place_name):
-    """Generate a placeholder image URL (Replace this with actual logic to fetch real images)."""
-    return f"https://source.unsplash.com/400x300/?{place_name.replace(' ', '+')}"
-
 def initialize_database():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
@@ -79,7 +63,8 @@ def initialize_database():
             place_desc TEXT,
             Ratings REAL,
             Type TEXT,
-            Image TEXT
+            Image TEXT,
+            single_image TEXT
         )
     """)
     cursor.execute("""
@@ -99,6 +84,17 @@ def initialize_database():
         )
     """)
 
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS reviews (
+            username TEXT,
+            place_name TEXT,
+            review TEXT,
+            PRIMARY KEY (username, place_name),
+            FOREIGN KEY (username) REFERENCES users(username)
+        )
+    """)
+
+
     # Check if places table is empty
     cursor.execute("SELECT COUNT(*) FROM places")
     count = cursor.fetchone()[0]
@@ -109,11 +105,11 @@ def initialize_database():
 
         for _, row in data.iterrows():
             cursor.execute("""
-                INSERT INTO places (Place, State, City, place_desc, Ratings, Type)
+                INSERT INTO places (Place, State, City, place_desc, Ratings, Type, Image)
                 VALUES (?, ?, ?, ?, ?, ?)
             """, (
                 row['Place'], row['State'], row['City'],
-                row['place_desc'], row['Ratings'], row['Type']
+                row['place_desc'], row['Ratings'], row['Type'], row['image'], row['single_image']
             ))
         conn.commit()
         print("✅ 'places' table populated.")
@@ -121,25 +117,6 @@ def initialize_database():
         print("✅ 'places' table already populated.")
 
     conn.close()
-@app.route('/update-images', methods=['POST'])
-def update_missing_images():
-    """Update missing images in the database."""
-    conn = get_db_connection()
-    cursor = conn.cursor()
-
-    cursor.execute("SELECT Place FROM places WHERE Image IS NULL OR Image = ''")
-    places_to_update = cursor.fetchall()
-
-    for row in places_to_update:
-        place_name = row['Place']
-        image_url = get_image_url(place_name)
-        cursor.execute("UPDATE places SET Image = ? WHERE Place = ?", (image_url, place_name))
-
-    conn.commit()
-    conn.close()
-
-    return jsonify({"msg": f"Updated images for {len(places_to_update)} places."}), 200
-
 
 @app.route('/')
 def home():
@@ -309,8 +286,6 @@ def delete_favorite():
 
     return jsonify({"msg": "Favorite removed"}), 200
 
-
-
 @app.route('/places', methods=['GET'])
 def get_places():
     conn = get_db_connection()
@@ -350,6 +325,48 @@ def get_acknowledgement():
         "link": "#"
     }
     return jsonify(data)
+
+@app.route('/reviews', methods=['POST'])
+@jwt_required()
+def add_review():
+    username = get_jwt_identity()
+    data = request.json
+    place = data.get('place_name')
+    review = data.get('review')
+
+    if not place or not review:
+        return jsonify({'msg': 'Place and review are required'}), 400
+
+    conn = get_db_connection()
+    try:
+        conn.execute(
+            'INSERT OR REPLACE INTO reviews (username, place_name, review) VALUES (?, ?, ?)',
+            (username, place, review)
+        )
+        conn.commit()
+    finally:
+        conn.close()
+
+    return jsonify({'msg': 'Review added successfully'}), 200
+
+
+@app.route('/reviews', methods=['GET'])
+def get_reviews():
+    place = request.args.get('place_name')
+
+    if not place:
+        return jsonify({'msg': 'Place is required'}), 400
+
+    conn = get_db_connection()
+    cursor = conn.execute(
+        'SELECT username, review FROM reviews WHERE place = ?',
+        (place,)
+    )
+    results = [dict(row) for row in cursor.fetchall()]
+    conn.close()
+
+    return jsonify(results)
+
 
 
 if __name__ == '__main__':

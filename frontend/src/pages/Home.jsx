@@ -1,4 +1,4 @@
-import React, { useRef, useState} from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Acknowledgement from "./Acknowledgement";
 import './Home.css';
@@ -54,7 +54,13 @@ const Home = () => {
   const navigate = useNavigate();
   const scrollRef = useRef(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+   // ✅ Check login status on component mount
+  useEffect(() => {
+    const token = localStorage.getItem('token'); // or 'isLoggedIn'
+    setIsLoggedIn(!!token);
+  }, []);
   
   const scroll = (direction) => {
     const { current } = scrollRef;
@@ -70,10 +76,45 @@ const Home = () => {
     city.reasons.some(reason => reason.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
+   // ✅ Get Started click handler (modified)
+  const handleGetStartedClick = () => {
+    if (isLoggedIn) {
+      navigate('/recommend');
+    } else {
+      navigate('/register');
+    }
+  };
+
    return (
     <div className="home-main">
       {/* Topbar */}
+<<<<<<< HEAD
       
+=======
+      <div className="topbar">
+          <div className="topbar-left" />
+        
+        <div className="topbar-center">
+        <input
+          type="text"
+          placeholder="Search places or cities..."
+          className="search-bar"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        </div>
+        <div className="topbar-right">
+         {/* ✅ Show buttons only when NOT logged in */}
+          {!isLoggedIn && (
+            <>
+              <button onClick={() => navigate('/login')}>Login</button>
+              <button onClick={() => navigate('/register')}>Register</button>
+            </>
+          )}
+        </div>
+      </div>
+
+>>>>>>> 88f2ae4d50126b6fefe31c7f90542a42ce621474
       {/* Hero Section */}
       <header className="hero">
         <h1>WanderGo✈️  </h1>
@@ -121,6 +162,7 @@ const Home = () => {
       </section>
       
       
+<<<<<<< HEAD
        <section className="info-section">
   <div className="about-section">
     <h2>What is WanderGo?</h2>
@@ -147,11 +189,39 @@ const Home = () => {
 </section>
 
 
+=======
+       {/* About WanderGo */}
+      <section className="about-section">
+        <h2>What is WanderGo?</h2>
+        <p>WanderGo is your personalized travel companion designed to help you discover the best destinations across India. Whether you're planning a weekend getaway or a cultural expedition, we provide AI-powered recommendations tailored to your preferences.</p>
+      </section>
+      
+      {/* How it works */}
+      <section className="how-it-works">
+        <h2>How It Works</h2>
+        <div className="steps">
+          <div className="step">
+            <h3>1. Sign Up or Log In</h3>
+            <p>Create an account to access personalized features.</p>
+          </div>
+          <div className="step">
+            <h3>2. Get Recommendations</h3>
+            <p>Receive suggestions based on your interests, budget, and travel style.</p>
+          </div>
+          <div className="step">
+            <h3>3. Explore & Favorite</h3>
+            <p>Save your favorite places, plan trips, and discover hidden gems.</p>
+          </div>
+        </div>
+      </section> 
+>>>>>>> 88f2ae4d50126b6fefe31c7f90542a42ce621474
        {/* Call to Action */}
       <section className="cta">
         <h2>Ready to Wander?</h2>
         <p>Sign up today to get curated recommendations and start your next adventure!</p>
-        <button className="get-started-btn" onClick={() => navigate('/register')}>Get Started</button>
+        <button className="get-started-btn" onClick={handleGetStartedClick}>
+          Get Started
+        </button>
       </section>
 
       {/* Add acknowledgement just above the footer */}

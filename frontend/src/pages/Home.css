@@ -293,6 +293,33 @@
     box-shadow: 0 2px 6px rgba(0,0,0,0.2);
     transition: background 0.3s ease;
   }
+  .info-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 3rem 2rem;
+    gap: 2rem;
+  }
+  
+  .about-section,
+  .how-it-works {
+    flex: 1 1 45%;
+    background-color: #f9f9f9;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  
+  .about-section h2,
+  .how-it-works h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+  
+  .steps .step {
+    margin-bottom: 1rem;
+  }
   
   .scroll-btn:hover {
     background-color: #f0f0f0;

@@ -85,7 +85,8 @@ def initialize_database():
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS users (
             username TEXT PRIMARY KEY,
-            password TEXT
+            password TEXT,
+            email TEXT
         )
     """)
     cursor.execute("""
@@ -143,6 +144,31 @@ def update_missing_images():
 @app.route('/')
 def home():
     return "Hello, Flask is running!"
+@app.route('/dashboard', methods=['GET'])
+@jwt_required()
+def dashboard():
+    username = get_jwt_identity()
+    conn = get_db_connection()
+
+    user_row = conn.execute("SELECT email FROM users WHERE username = ?", (username,)).fetchone()
+    email = user_row['email'] if user_row else None
+
+    user_data = {
+        "name": username.title(),
+        "email": email,
+    }
+
+    cursor = conn.execute("SELECT DISTINCT Place FROM places ORDER BY RANDOM() LIMIT 5")
+    recommendations = [row['Place'] for row in cursor.fetchall()]
+
+    cursor = conn.execute("SELECT place_name FROM favorites WHERE username = ?", (username,))
+    favorites = [row['place_name'] for row in cursor.fetchall()]
+    conn.close()
+
+    user_data["recommendations"] = recommendations
+    user_data["favorites"] = favorites
+
+    return jsonify(user_data)
 
 
 @app.route('/recommend', methods=['POST'])
@@ -196,16 +222,17 @@ def get_inferred_types():
     inferred_types = {infer_type(desc) for desc in descriptions}
     return jsonify(sorted(list(inferred_types)))
 
-
 @app.route('/register', methods=['POST'])
 def register():
     data = request.json
     username = data['username']
     password = bcrypt.generate_password_hash(data['password']).decode('utf-8')
+    email = data.get('email')
 
     conn = get_db_connection()
     try:
-        conn.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password))
+        conn.execute("INSERT INTO users (username, password, email) VALUES (?, ?, ?)", 
+                     (username, password, email))
         conn.commit()
     except sqlite3.IntegrityError:
         return jsonify({"msg": "Username already exists"}), 400
@@ -213,6 +240,7 @@ def register():
         conn.close()
 
     return jsonify({"msg": "User registered successfully"}), 201
+
 
 
 @app.route('/login', methods=['POST'])

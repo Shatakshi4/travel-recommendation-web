@@ -7,8 +7,8 @@
     padding: 1rem 2rem;
     color: #fff;
     position: sticky;
-        top: 0;
-        z-index: 1000;
+    top: 0;
+    z-index: 1000;
 }
 
 .navbar .logo {
@@ -18,11 +18,11 @@
 }
 
 .nav-links {
-    list-style: none;
     display: flex;
-    gap: 1rem;
+    list-style: none;
     margin: 0;
     padding: 0;
+    gap: 1rem;
     align-items: center;
 }
 
@@ -39,14 +39,59 @@
     font-size: 1rem;
     cursor: pointer;
     padding: 0.3rem 0.6rem;
-        border-radius: 4px;
-        transition: background-color 0.2s ease-in-out;
+    border-radius: 4px;
+    transition: background-color 0.2s ease-in-out;
 }
 
 .nav-links a:hover,
 .nav-links button:hover {
     background-color: rgba(255, 255, 255, 0.15);
     text-decoration: underline;
+}
+
+.profile-menu {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid white;
+}
+
+.dropdown {
+    position: absolute;
+    right: 0;
+    top: 45px;  /* Adjusted position based on profile icon size */
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 0.5rem 0;
+    min-width: 140px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 100;
+    display: none;
+}
+
+.profile-menu:hover .dropdown {
+    display: block;
+}
+
+.dropdown button {
+    display: block;
+    width: 100%;
+    padding: 8px 16px;
+    text-align: left;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #333;
+}
+
+.dropdown button:hover {
+    background-color: #f0f0f0;
 }
 
 .dark-mode-toggle {

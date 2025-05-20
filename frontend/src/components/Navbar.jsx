@@ -1,36 +1,55 @@
-// src/components/Navbar.jsx
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Navbar.css';
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const isLoggedIn = !!localStorage.getItem('token');
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    setIsLoggedIn(token && token !== 'undefined' && token !== 'null');
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    setIsLoggedIn(false);
+    setDropdownOpen(false);
     navigate('/login');
   };
 
   return (
     <nav className="navbar">
-      <div className="logo">WanderGo</div>
+      <div className="logo" onClick={() => navigate('/')}>WanderGo</div>
+
       <ul className="nav-links">
-        <li><Link to="/home">Home</Link></li>
-         {isLoggedIn ? (
+        <li><button onClick={() => navigate('/home')}>Home</button></li>
+        <li><button onClick={() => navigate('/recommend')}>Recommendations</button></li>
+        <li><button onClick={() => navigate('/favorites')}>Favorites</button></li>
+        <li><button onClick={() => navigate('/places')}>All places</button></li>
+
+        {isLoggedIn ? (
+          <li className="profile-menu">
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/847/847969.png"
+              alt="Profile"
+              className="profile-icon"
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+            />
+            {dropdownOpen && (
+              <div className="dropdown">
+                <button onClick={() => navigate('/dashboard')}>Profile</button>
+                <button onClick={handleLogout}>Logout</button>
+              </div>
+            )}
+          </li>
+        ) : (
           <>
-        <li><Link to="/recommend">Recommendations</Link></li>
-        <li><Link to="/favorites">Favorites</Link></li>
-        <li><Link to="/dashboard">Dashboard</Link></li>
-        <li><Link to="/places">All places</Link></li>
-        <li><button onClick={handleLogout}>Logout</button></li>
-        </>
-         ) : (
-          <>
-          <li><button onClick={() => navigate('/login')}>Login</button></li>
+            <li><button onClick={() => navigate('/login')}>Login</button></li>
             <li><button onClick={() => navigate('/register')}>Register</button></li>
           </>
-         )}
+        )}
       </ul>
     </nav>
   );

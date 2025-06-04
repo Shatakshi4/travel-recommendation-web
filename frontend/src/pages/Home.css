@@ -1,16 +1,54 @@
-.home-main {
-    font-family: 'Segoe UI', Tahoma,
-      Geneva,
-      Verdana, sans-serif;
-    padding: 0;
+/* Home.css */
+
+/* General body styling for better font and margin */
+body {
+    font-family: 'Inter', sans-serif;
     margin: 0;
-    scroll-behavior: smooth;
-    background-color: #fff;
+    background-color: #f8f9fa;
     color: #333;
-  }
-  
-  /* Hero Section */
-  .hero {
+}
+
+/* Main container for the home page */
+.home-main {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    /* Adjusted padding-top to account for the global Navbar's height (assuming ~60-70px) */
+    padding-top: 70px; /* This should match the height of your Navbar */
+    position: relative;
+    z-index: 0;
+}
+
+/* Search Bar Section - New styling for the repositioned search bar */
+.search-bar-section {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    background-color: #f0f8ff; /* Light background for the search section */
+    border-bottom: 1px solid #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+}
+
+.main-search-bar {
+    width: 100%;
+    max-width: 600px; /* Wider search bar for prominence */
+    padding: 12px 20px;
+    border: 1px solid #007bff; /* Highlighted border */
+    border-radius: 30px;
+    font-size: 1.1rem;
+    outline: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.1);
+}
+
+.main-search-bar:focus {
+    border-color: #0056b3;
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.4);
+}
+
+/* Hero Section - Adopted from user's provided snippet */
+.hero {
     position: relative;
     background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80');
     background-size: cover;
@@ -19,423 +57,430 @@
     padding: 3rem 2rem;
     text-align: center;
     border-radius: 0 0 30px 30px;
-  }
-  
-    .hero::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 1;
-      /* dark overlay for readability */
-    }
-    .hero h1 {
-      color: #ffffff;
-      /* White color for better contrast */
-      font-size: 3rem;
-      /* Adjust size as needed */
-      font-weight: bold;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
-      position: relative;
-        z-index: 2;
-      /* Light shadow for better readability */
-    }
-  
-    .hero p {
-      color: #f0f0f0;
-      /* Slightly softer white for the paragraph */
-      font-size: 1.2rem;
-      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-      position: relative;
-        z-index: 2;
-      /* Subtle shadow */
-    }
-
-    .about-section {
-  max-width: 850px;
-  margin: 3rem auto;
-  padding: 2rem 2rem 1.5rem;
-  background-color: #f9f9f9;
-  border-radius: 10px;
-  border-top: 5px solid #6c5ce7;
-  text-align: center;
+    min-height: 400px; /* Ensure sufficient height */
+    display: flex; /* Added for centering content */
+    flex-direction: column; /* Added for centering content */
+    justify-content: center; /* Added for centering content */
+    align-items: center; /* Added for centering content */
+    z-index: 0; /* Ensure it stays below Navbar */
 }
 
-.about-section h2 {
-  font-size: 1.9rem;
-  color: #2d3436;
-  margin-bottom: 1rem;
-}
-
-.about-section p {
-  font-size: 1.05rem;
-  color: #636e72;
-  line-height: 1.6;
-}
-
-
-    
-
-        /* Sections */
-        .about-section,
-        .how-it-works,
-        .popular-destinations,
-        .cta {
-          padding: 2rem;
-          text-align: center;
-        }
-    
-        .steps {
-          display: flex;
-          justify-content: center;
-          gap: 2rem;
-          margin-top: 2rem;
-          flex-wrap: wrap;
-        }
-    
-        .step {
-          flex: 1 1 250px;
-          /* background: #f9f9f9; */
-          background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
-          padding: 2rem 1.5rem;
-            text-align: center;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-                .step::before {
-                  content: '';
-                  position: absolute;
-                  top: -20%;
-                  right: -20%;
-                  width: 140%;
-                  height: 140%;
-                  background: rgba(255, 255, 255, 0.1);
-                  transform: rotate(45deg);
-                  pointer-events: none;
-                }
-        
-                .step:hover {
-                  transform: translateY(-5px);
-                  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-                }
-        
-                .step h3 {
-                  font-size: 1.5rem;
-                  margin-bottom: 0.8rem;
-                  color: #2c3e50;
-                }
-        
-                .step p {
-                  font-size: 0.95rem;
-                  color: #555;
-                  line-height: 1.6;
-                }
-    
-        .popular-destinations h2,
-        .about-section h2,
-        .how-it-works h2,
-        .cta h2 {
-          font-size: 28px;
-          margin-bottom: 1rem;
-        }
-
-  /* Topbar */
-  .topbar {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    background-color: #fff;
-    padding: 1rem 2rem;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    position: sticky;
+.hero::before {
+    content: "";
+    position: absolute;
     top: 0;
-    z-index: 1000;
-  }
-  
-  .topbar-right button {
-    margin-left: 1rem;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 500;
-    font-size: 0.9rem;
-    transition: background-color 0.3s ease;
-  }
-  
-  .topbar-right button:hover {
-    background-color: #0056b3;
-  }
-  
-  /* Auth Buttons in Hero */
-  .hero-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .auth-buttons {
-    display: flex;
-    gap: 1rem;
-  }
-  
-  .auth-buttons button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .auth-buttons button:hover {
-    background-color: #0056b3;
-  }
-  
-  /* Popular Destinations */
-  .popular-destinations {
-    padding: 2rem;
-  }
-  
-  .popular-destinations h2 {
-    font-size: 28px;
-    margin-bottom: 1rem;
-  }
-  
-  /* Horizontal Scrollable Cards */
-  .scroll-container {
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* dark overlay for readability */
+    z-index: 1;
+}
+
+.hero h1 {
+    color: #ffffff;
+    font-size: 3rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
     position: relative;
+    z-index: 2;
+    margin-bottom: 10px; /* Added margin for consistency */
+}
+
+.hero p {
+    color: #f0f0f0;
+    font-size: 1.2rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 2;
+}
+
+/* Popular Destinations Section */
+.popular-destinations {
+    padding: 40px 20px;
+    text-align: center;
+    background-color: #fff;
+    border-radius: 10px;
+    margin: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.popular-destinations h2 {
+    font-size: 2.2rem;
+    color: #007bff;
+    margin-bottom: 30px;
+}
+
+.scroll-container {
     display: flex;
     align-items: center;
-  }
-  
-  .card-row {
+    justify-content: center;
+    position: relative;
+    margin: 0 auto;
+    width: 100%; /* Ensure it takes full width */
+    max-width: 1200px; /* Max width for larger screens */
+    overflow: hidden; /* Hide overflow to contain the scrollable content */
+}
+
+.card-row {
     display: flex;
-    overflow-x: auto;
-    flex-wrap: nowrap; /* 🚨 Ensure cards stay in a row */
-    scroll-behavior: smooth;
-    padding-bottom: 1rem;
-    scrollbar-width: none;
-  }
-  
-  
-  .card-row::-webkit-scrollbar {
-    display: none; /* Chrome, Safari */
-  }
-  
-  .city-card {
+    overflow-x: auto; /* Enable horizontal scrolling */
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    padding: 20px 0;
+    gap: 24px; /* Increased gap for better spacing */
+    flex-wrap: nowrap; /* Ensure cards stay in a single line */
+    scrollbar-width: none; /* Hide scrollbar for Firefox */
+    -ms-overflow-style: none;  /* Hide scrollbar for IE and Edge */
+    width: 100%; /* Ensure it takes full width of its container */
+}
+
+.card-row::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for Chrome, Safari, Opera */
+}
+
+.city-card {
     background: #f9f9f9;
     border-radius: 16px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    margin: 0 12px;
-    flex: 0 0 320px;
+    /* Removed margin: 0 12px; to rely on gap for spacing */
+    flex: 0 0 320px; /* Fixed width for cards, slightly increased */
     overflow: hidden;
+    cursor: pointer; /* Added cursor pointer for clickability */
     transition: transform 0.3s ease;
-  }
-  
-  .city-card:hover {
+    display: flex; /* Ensure flex for internal content */
+    flex-direction: column; /* Ensure flex for internal content */
+}
+
+.city-card:hover {
     transform: translateY(-4px);
-  }
-  
-  .city-card img {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.city-card img {
     width: 100%;
-    height: 180px;
+    height: 180px; /* Adjusted height for consistency with user's snippet */
     object-fit: cover;
-  }
-  
-  .card-info {
+}
+
+.card-info {
     padding: 1rem;
-  }
-  
-  .card-info h3 {
+    flex-grow: 1; /* Allows info section to take available space */
+    display: flex;
+    flex-direction: column;
+}
+
+.card-info h3 {
     margin: 0;
     font-size: 20px;
     font-weight: bold;
-  }
-  
-  .tagline {
+    margin-bottom: 10px; /* Added margin for consistency */
+}
+
+.tagline {
     color: #0071c2;
     font-weight: 500;
     margin-bottom: 0.5rem;
-  }
-  
-  .desc {
+}
+
+.desc {
     font-size: 14px;
     margin-bottom: 0.75rem;
-  }
-  
-  .reasons ul {
+    flex-grow: 1; /* Allows description to take available space */
+}
+
+.reasons ul {
     padding-left: 1rem;
     list-style: disc;
     font-size: 14px;
     color: #555;
-  }
-  
-  /* Scroll Buttons */
-  .scroll-btn {
+    margin-top: 15px; /* Added margin for consistency */
+    border-top: 1px solid #eee; /* Added border for consistency */
+    padding-top: 15px; /* Added padding for consistency */
+}
+
+/* Scroll Buttons */
+.scroll-btn {
     position: absolute;
-    top: 35%;
-    z-index: 2;
-    background-color: rgba(255,255,255,0.9);
+    top: 50%; /* Centered vertically */
+    transform: translateY(-50%); /* Fine-tune centering */
+    z-index: 20; /* Increased z-index to ensure visibility */
+    background-color: rgba(255, 255, 255, 0.9);
     border: none;
     padding: 10px 16px;
     font-size: 20px;
     cursor: pointer;
     border-radius: 50%;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
     transition: background 0.3s ease;
-  }
-  .info-section {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    padding: 3rem 2rem;
-    gap: 2rem;
-  }
-  
-  .about-section,
-  .how-it-works {
-    flex: 1 1 45%;
-    background-color: #f9f9f9;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  }
-  
-  .about-section h2,
-  .how-it-works h2 {
-    font-size: 1.8rem;
-    margin-bottom: 1rem;
-    color: #333;
-  }
-  
-  .steps .step {
-    margin-bottom: 1rem;
-  }
-  
-  .scroll-btn:hover {
-    background-color: #f0f0f0;
-  }
-  
-  .scroll-btn.left {
-    left: 0;
-  }
-  
-  .scroll-btn.right {
-    right: 0;
-  }
+}
 
-    /* CTA Section */
-    .get-started-btn {
-      background: #007bff;
-      color: #fff;
-      padding: 0.7rem 1.5rem;
-      font-size: 1rem;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 1rem;
-      transition: background-color 0.3s ease;
-    }
-  
-    .get-started-btn:hover {
-      background: #0056b3;
-    }
-  
-  /* Footer */
-  .footer {
-    background-color: #f8f8f8;
-    padding: 20px 30px;
-    margin-top: 40px;
-    border-top: 1px solid #e0e0e0;
-  }
-  
-  .footer-links {
+.scroll-btn:hover {
+    background-color: #f0f0f0;
+}
+
+.scroll-btn.left {
+    left: 10px; /* Adjusted position */
+}
+
+.scroll-btn.right {
+    right: 10px; /* Adjusted position */
+}
+
+/* About Section */
+.about-section, .how-it-works, .cta {
+    padding: 40px 20px;
+    margin: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    text-align: center;
+}
+
+.about-section h2, .how-it-works h2, .cta h2 {
+    font-size: 2.2rem;
+    color: #007bff;
+    margin-bottom: 20px;
+}
+
+.about-section p, .cta p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #555;
+    max-width: 800px;
+    margin: 0 auto 30px auto;
+}
+
+/* How It Works Section */
+.how-it-works .steps {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.how-it-works .step {
+    flex: 1;
+    min-width: 280px;
+    max-width: 350px;
+    padding: 30px;
+    border-radius: 15px;
+    background-color: #f0f8ff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.how-it-works .step:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+}
+
+.how-it-works .step h3 {
+    font-size: 1.6rem;
+    color: #007bff;
+    margin-bottom: 15px;
+}
+
+.how-it-works .step p {
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.6;
+}
+
+/* Call to Action Section */
+.cta {
+    background-color: #e6f2ff;
+    border: 2px solid #007bff;
+}
+
+.get-started-btn {
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 30px;
+    background-color: #28a745;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.get-started-btn:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+}
+
+/* Footer Styling */
+.footer {
+    background-color: #343a40;
+    color: #f8f9fa;
+    padding: 30px 20px;
+    text-align: center;
+    margin-top: auto; /* Pushes footer to the bottom */
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.footer-links {
     display: flex;
     justify-content: center;
-    gap: 30px;
+    gap: 25px;
+    margin-bottom: 20px;
     flex-wrap: wrap;
-    margin-bottom: 10px;
-  }
-  
-  .footer-links p {
-    margin: 0;
-    color: #007bff;
-    cursor: pointer;
-    font-weight: 500;
-  }
-  
-  .footer-links p:hover {
-    text-decoration: underline;
-  }
-  
-  .footer-disclaimer {
-    text-align: center;
-    font-size: 12px;
-    color: #666;
-    margin-top: 10px;
-  }
-  
-  /* Optional: Responsive scroll button hiding on small devices */
-  @media (max-width: 768px) {
-    .scroll-btn {
-      display: none;
-    }
-  }
+}
 
-    .search-bar {
-      padding: 0.5rem 1rem;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 0.9rem;
-      /* margin-right: 1rem; */
-      width: 100%;
-        max-width: 600px;
-      outline: none;
-      /* width: 250px; */
-      transition: all 0.3s ease;
+.footer-links p {
+    margin: 0;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.footer-links p:hover {
+    color: #007bff;
+    text-decoration: underline;
+}
+
+.footer-disclaimer {
+    font-size: 0.8rem;
+    color: #adb5bd;
+    line-height: 1.5;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .home-main {
+        padding-top: 60px; /* Adjust for smaller Navbar on mobile if needed */
     }
-  
-    .search-bar:focus {
-      border-color: #007bff;
-      box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+
+    .hero {
+        padding: 80px 15px;
+        padding-top: 80px; /* Adjusted padding-top */
+        min-height: 300px;
     }
-    
-        /* Create flexible layout for center */
-        .topbar-center {
-          flex: 1;
-          display: flex;
-          justify-content: center;
-        }
-    
-        /* Style the search input */
-        .topbar input[type="text"] {
-          width: 100%;
-          max-width: 600px;
-          padding: 0.6rem 1rem;
-          border: 1px solid #ccc;
-          border-radius: 8px;
-          font-size: 0.95rem;
-          outline: none;
-          transition: all 0.3s ease;
-        }
-    
-        .topbar input[type="text"]:focus {
-          border-color: #007bff;
-          box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
-        }
-    
-        /* Ensure right section doesn't shrink */
-        .topbar-right {
-          flex-shrink: 0;
-          display: flex;
-          align-items: center;
-        }
+
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero p {
+        font-size: 1.2rem;
+    }
+
+    .popular-destinations h2, .about-section h2, .how-it-works h2, .cta h2 {
+        font-size: 1.8rem;
+    }
+
+    .city-card {
+        width: 280px; /* Adjusted width for smaller screens */
+    }
+
+    .how-it-works .steps {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .how-it-works .step {
+        width: 90%;
+        max-width: 400px;
+    }
+
+    .get-started-btn {
+        padding: 12px 25px;
+        font-size: 1rem;
+    }
+
+    .footer-links {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .home-main {
+        padding-top: 60px; /* Ensure consistent padding for Navbar */
+    }
+
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
+
+    .scroll-btn {
+        width: 30px;
+        height: 30px;
+        font-size: 1.2rem;
+    }
+
+    .city-card {
+        width: 90vw; /* Make cards almost full width on very small screens */
+        max-width: 300px;
+    }
+}
+/* Add this to your Home.css */
+
+.main-search-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    gap: 10px; /* Space between input and button */
+}
+
+.main-search-bar {
+    padding: 12px 20px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    width: 60%; /* Adjust as needed */
+    max-width: 500px;
+    font-size: 16px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+}
+
+.main-search-bar:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0,123,255,0.2);
+    outline: none;
+}
+
+.search-button {
+    padding: 12px 25px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.search-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.search-button:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    .main-search-form {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .main-search-bar {
+        width: 85%;
+    }
+    .search-button {
+        width: 85%;
+    }
+}

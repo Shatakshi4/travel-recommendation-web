@@ -1,0 +1,38 @@
+.reviews-section-container {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #f0f2f5;
+  border-radius: 10px;
+}
+
+.reviews-section-container h2 {
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.overall-rating-summary {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center the rating summary */
+  gap: 15px;
+  margin-bottom: 25px;
+  background-color: #e6f7ff;
+  padding: 15px 20px;
+  border-radius: 8px;
+  border: 1px solid #b3e0ff;
+}
+
+.overall-rating-summary .star-rating-display {
+  font-size: 2em;
+}
+
+.overall-rating-text {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #0056b3;
+}
+
+.reviews-list {
+  margin-top: 30px;
+}

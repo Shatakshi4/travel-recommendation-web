@@ -19,7 +19,10 @@ import BlogGoa from './pages/BlogGoa';
 import Dashboard from './pages/Dashboard';
 import PlaceDetails from './pages/PlaceDetails';
 import PrivateRoute from './components/PrivateRoute';
-
+import SearchResultsPage from './pages/SearchResultsPage';
+import AdvancedRecommend from './pages/AdvancedRecommend';
+import UserPreferences from './pages/UserPreferences';
+import PersonalizedRecommendations from './pages/PersonalizedRecommendations';
 // import Profile from './pages/Profile';
 // import EditProfile from './pages/EditProfile';
 
@@ -68,19 +71,22 @@ function App() {
     </PrivateRoute>
   }
 />
-
+ <Route path="/" element={<Home />} />
+        <Route path="/place-details" element={<PlaceDetails />} />
+        <Route path="/search-results" element={<SearchResultsPage />} /> 
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/places" element={<Places />} />
         <Route path="/dashboard" element={<Dashboard />} />
+         <Route path="/preferences" element={<UserPreferences />} />
         <Route path="/place-details" element={<PlaceDetails />} />
-
+<Route path="/advanced-recommend" element={<AdvancedRecommend />}/>
 <Route path="/blog/delhi" element={<BlogDelhi />} />
 <Route path="/blog/chennai" element={<BlogChennai />} />
 <Route path="/blog/kolkata" element={<BlogKolkata />} />
 <Route path="/blog/mumbai" element={<BlogMumbai />} />
 <Route path="/blog/jaipur" element={<BlogJaipur />} />
 <Route path="/blog/goa" element={<BlogGoa />} />
-
+ <Route path="/personalized-recommendations" element={<PersonalizedRecommendations />} />
         {/* <Route path="/profile" element={<Profile />} /> */}
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<ContactUs />} />

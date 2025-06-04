@@ -1,92 +1,129 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
 import './Dashboard.css';
 
 const Dashboard = () => {
+  const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const [user, setUser] = useState(null); // Holds user data
-  const [loading, setLoading] = useState(true); // Loading state
-  const [error, setError] = useState(null); // Error state
+
+  const token = localStorage.getItem('token');
+  const userUsername = token ? jwtDecode(token).sub : null;
+
+  const fetchDashboardData = useCallback(async () => {
+    if (!token) {
+      setError('You must be logged in to view the dashboard.');
+      setLoading(false);
+      return;
+    }
+    try {
+      const response = await axios.get('http://127.0.0.1:5000/dashboard', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setUserData(response.data);
+    } catch (err) {
+      console.error('Error fetching dashboard data:', err.response ? err.response.data : err);
+      setError(err.response?.data?.error || 'Failed to load dashboard data.');
+    } finally {
+      setLoading(false);
+    }
+  }, [token]);
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        // Redirect to login if no token exists
-        navigate('/login');
-        return;
-      }
-
-      try {
-        const response = await axios.get('http://localhost:5000/dashboard', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setUser(response.data);
-      } catch (error) {
-        console.error('Error fetching user data', error);
-        setError('Failed to fetch user data. Please try again later.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUserData();
-  }, [navigate]);
+    fetchDashboardData();
+  }, [fetchDashboardData]);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
-    navigate('/');
+    navigate('/login');
   };
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
+  const activityTypeMap = {
+    'view': 'Viewed',
+    'search': 'Searched for',
+    'recommendation_shown': 'Was shown a recommendation',
+    'feedback_positive': 'Gave positive feedback on',
+    'feedback_negative': 'Gave negative feedback on',
+  };
 
-  if (error) {
-    return <p>{error}</p>;
-  }
-
-  if (!user) {
-    return <p>No user data available.</p>;
-  }
+  if (loading) return <p className="loading-message">Loading dashboard...</p>;
+  if (error) return <p className="error-message">{error}</p>;
+  if (!userData) return <p className="info-message">No user data available. Please log in.</p>;
 
   return (
-    <div className="dashboard">
-      <h1>Welcome back, {user.name} 👋</h1>
-      <p>Email: {user.email}</p>
+    <div className="dashboard-container">
+      <h2>Welcome, {userData.name}!</h2>
+      <p>Email: {userData.email}</p>
 
-      <section className="section">
-        <h2>🌟 Recommended for You</h2>
-        <div className="card-row">
-          {user.recommendations.map((place, index) => (
-            <div
-              key={index}
-              className="card"
-              onClick={() => navigate(`/place-details`, { state: { place: { name: place } } })}
-            >
-              <h3>{place}</h3>
-              <p>Explore amazing experiences</p>
-            </div>
-          ))}
+      <div className="dashboard-sections">
+        {/* Favorites Section */}
+        <div className="dashboard-section">
+          <h3>Your Favorites</h3>
+          {userData.favorites && userData.favorites.length > 0 ? (
+            <ul>
+              {userData.favorites.map((fav, index) => (
+                <li key={index}>{fav}</li>
+              ))}
+            </ul>
+          ) : (
+            <p>You haven't favorited any places yet.</p>
+          )}
         </div>
-      </section>
 
-      <section className="section">
-        <h2>❤️ Your Favorites</h2>
-        <div className="card-row">
-          {user.favorites.map((place, index) => (
-            <div key={index} className="card">
-              <h3>{place}</h3>
-              <p>Saved to your list</p>
+        {/* Preferences Section */}
+        <div className="dashboard-section">
+          <h3>Your Preferences</h3>
+          {userData.preferences && Object.keys(userData.preferences).length > 1 ? (
+            <div>
+              <p><strong>Travel Style:</strong> {userData.preferences.preferred_travel_style || 'Not set'}</p>
+              <p><strong>Budget:</strong> {userData.preferences.preferred_budget || 'Not set'}</p>
+              <p><strong>Preferred Types:</strong> {userData.preferences.preferred_types || 'Not set'}</p>
             </div>
-          ))}
+          ) : (
+            <p>You haven't set your preferences yet. This helps us give better recommendations!</p>
+          )}
+          <button onClick={() => navigate('/preferences')} className="preferences-button">
+            Manage Preferences
+          </button>
+          {/* NEW: Button to view personalized recommendations */}
+          <button onClick={() => navigate('/personalized-recommendations')} className="view-personalized-recommendations-button">
+            View Personalized Recommendations
+          </button>
         </div>
-      </section>
 
-      <button className="logout-btn" onClick={handleLogout}>Logout</button>
+        {/* Recent Activity Section */}
+        <div className="dashboard-section">
+          <h3>Recent Activity</h3>
+          {userData.recent_activity && userData.recent_activity.length > 0 ? (
+            <ul>
+              {userData.recent_activity.map((activity, index) => (
+                <li key={index}>
+                  {activityTypeMap[activity.activity_type] || activity.activity_type}
+                  {' '}
+                  {activity.Place && (
+                    <span className="activity-place" onClick={() => navigate('/place-details', { state: { place: { Place: activity.Place, City: activity.City, State: activity.State } } })}>
+                      {activity.Place} ({activity.City}, {activity.State})
+                    </span>
+                  )}
+                  {activity.search_query && ` for "${activity.search_query}"`}
+                  {activity.rating_feedback && ` (Rating: ${activity.rating_feedback})`}
+                  {' '}
+                  <span className="activity-timestamp">({new Date(activity.timestamp).toLocaleString()})</span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>No recent activity recorded.</p>
+          )}
+        </div>
+      </div>
+
+      <button onClick={handleLogout} className="logout-button">Logout</button>
     </div>
   );
 };

@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Acknowledgement from "./Acknowledgement";
 import './Home.css';
-import '../components/Navbar.css';
+import '../components/Navbar.css'; // Ensure Navbar.css is imported for global Navbar styling
 
 const cities = [
   {
@@ -54,14 +54,7 @@ const Home = () => {
   const navigate = useNavigate();
   const scrollRef = useRef(null);
   const [searchTerm, setSearchTerm] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-   // ✅ Check login status on component mount
-  useEffect(() => {
-    const token = localStorage.getItem('token'); // or 'isLoggedIn'
-    setIsLoggedIn(!!token);
-  }, []);
-  
   const scroll = (direction) => {
     const { current } = scrollRef;
     if (current) {
@@ -70,56 +63,49 @@ const Home = () => {
     }
   };
 
-   const filteredCities = cities.filter(city =>
+  // --- NEW: Handle search submission ---
+  const handleSearchSubmit = (e) => {
+    e.preventDefault(); // Prevent default form submission
+    if (searchTerm.trim()) {
+      navigate(`/search-results?q=${encodeURIComponent(searchTerm.trim())}`);
+    }
+  };
+
+  const filteredCities = cities.filter(city =>
     city.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     city.knownFor.toLowerCase().includes(searchTerm.toLowerCase()) ||
     city.reasons.some(reason => reason.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
-   // ✅ Get Started click handler (modified)
   const handleGetStartedClick = () => {
-    if (isLoggedIn) {
+    const token = localStorage.getItem('token');
+    if (token) {
       navigate('/recommend');
     } else {
       navigate('/register');
     }
   };
 
-   return (
+  return (
     <div className="home-main">
-      {/* Topbar */}
-<<<<<<< HEAD
-      
-=======
-      <div className="topbar">
-          <div className="topbar-left" />
-        
-        <div className="topbar-center">
-        <input
-          type="text"
-          placeholder="Search places or cities..."
-          className="search-bar"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        </div>
-        <div className="topbar-right">
-         {/* ✅ Show buttons only when NOT logged in */}
-          {!isLoggedIn && (
-            <>
-              <button onClick={() => navigate('/login')}>Login</button>
-              <button onClick={() => navigate('/register')}>Register</button>
-            </>
-          )}
-        </div>
-      </div>
-
->>>>>>> 88f2ae4d50126b6fefe31c7f90542a42ce621474
-      {/* Hero Section */}
       <header className="hero">
-        <h1>WanderGo✈️  </h1>
-        <p>Go where your heart wanders.</p>
+        <h1>WanderGo✈️ </h1>
+        <p>Go where your heart wanders.</p>
       </header>
+
+      {/* --- MODIFIED: Search Bar to include a form for submission --- */}
+      <section className="search-bar-section">
+        <form onSubmit={handleSearchSubmit} className="main-search-form">
+          <input
+            type="text"
+            placeholder="Search places or cities..."
+            className="main-search-bar"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <button type="submit" className="search-button">Search</button> {/* Added a search button */}
+        </form>
+      </section>
 
       {/* Popular Cities Section */}
       <section className="popular-destinations">
@@ -160,42 +146,14 @@ const Home = () => {
           <button className="scroll-btn right" onClick={() => scroll('right')}>&gt;</button>
         </div>
       </section>
-      
-      
-<<<<<<< HEAD
-       <section className="info-section">
-  <div className="about-section">
-    <h2>What is WanderGo?</h2>
-    <p>WanderGo is your personalized travel companion designed to help you discover the best destinations across India. Whether you're planning a weekend getaway or a cultural expedition, we provide AI-powered recommendations tailored to your preferences.</p>
-  </div>
-
-  <div className="how-it-works">
-    <h2>How It Works</h2>
-    <div className="steps">
-      <div className="step">
-        <h3>1. Sign Up or Log In</h3>
-        <p>Create an account to access personalized features.</p>
-      </div>
-      <div className="step">
-        <h3>2. Get Recommendations</h3>
-        <p>Receive suggestions based on your interests, budget, and travel style.</p>
-      </div>
-      <div className="step">
-        <h3>3. Explore & Favorite</h3>
-        <p>Save your favorite places, plan trips, and discover hidden gems.</p>
-      </div>
-    </div>
-  </div>
-</section>
 
 
-=======
-       {/* About WanderGo */}
+      {/* About WanderGo */}
       <section className="about-section">
         <h2>What is WanderGo?</h2>
         <p>WanderGo is your personalized travel companion designed to help you discover the best destinations across India. Whether you're planning a weekend getaway or a cultural expedition, we provide AI-powered recommendations tailored to your preferences.</p>
       </section>
-      
+
       {/* How it works */}
       <section className="how-it-works">
         <h2>How It Works</h2>
@@ -213,9 +171,8 @@ const Home = () => {
             <p>Save your favorite places, plan trips, and discover hidden gems.</p>
           </div>
         </div>
-      </section> 
->>>>>>> 88f2ae4d50126b6fefe31c7f90542a42ce621474
-       {/* Call to Action */}
+      </section>
+      {/* Call to Action */}
       <section className="cta">
         <h2>Ready to Wander?</h2>
         <p>Sign up today to get curated recommendations and start your next adventure!</p>

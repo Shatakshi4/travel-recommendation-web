@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Recommend.css';
 import { useNavigate } from 'react-router-dom';
-
+import StarRatingDisplay from './StarRatingDisplay'; // Assuming you have this for displaying average_rating
 
 const Recommend = () => {
   const [form, setForm] = useState({
@@ -16,7 +16,7 @@ const Recommend = () => {
   const [cities, setCities] = useState([]);
   const [types, setTypes] = useState([]);
   const [viewMode, setViewMode] = useState('grid');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState(''); // This is for client-side filtering
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -46,33 +46,38 @@ const Recommend = () => {
         .then(res => res.json())
         .then(data => setTypes(data));
     }
-  }, [form.city]);
+  }, [form.city, form.state]); // Added form.state to dependency array
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await fetch('http://localhost:5000/recommend', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(form)
-    });
+    try {
+      const response = await fetch('http://localhost:5000/recommend', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form)
+      });
 
-    const data = await response.json();
-    setResults(data);
-    setMessage(data.length === 0 ? 'No results found' : '');
-    console.log('API Results:', data); // ✅ Check if place_desc exists
+      const data = await response.json();
+      setResults(data);
+      setMessage(data.length === 0 ? 'No results found for your criteria.' : '');
+      console.log('API Results:', data);
+    } catch (error) {
+      console.error('Error fetching recommendations:', error);
+      setMessage('Failed to load recommendations.');
+    }
   };
 
   const addToFavorites = async (placeName, state) => {
     const token = localStorage.getItem('token');
 
     if (!token) {
-      alert('Please login to add to favorites.');
+      // Using console.log instead of alert for better Canvas compatibility
+      console.log('Please login to add to favorites.');
       return;
     }
 
@@ -87,17 +92,18 @@ const Recommend = () => {
       });
 
       const data = await res.json();
-      alert(data.msg || 'Added to favorites');
+      console.log(data.msg || 'Added to favorites'); // Using console.log
     } catch (error) {
       console.error(error);
-      alert('Error adding to favorites');
+      console.log('Error adding to favorites'); // Using console.log
     }
   };
 
-    const handleSort = (sortBy) => {
+  const handleSort = (sortBy) => {
     let sorted = [...results];
     if (sortBy === 'rating') {
-      sorted.sort((a, b) => b.Ratings - a.Ratings);
+      // Sort by average_rating, handling potential nulls
+      sorted.sort((a, b) => (b.average_rating || 0) - (a.average_rating || 0));
     } else if (sortBy === 'alphabetical') {
       sorted.sort((a, b) => a.Place.localeCompare(b.Place));
     } else if (sortBy === 'state') {
@@ -113,15 +119,21 @@ const Recommend = () => {
 
   const resetFilters = () => {
     setForm({ state: '', city: '', type: '' });
-    setResults([]);
+    setResults([]); // Clear results when filters are reset
     setMessage('');
-    setSearchQuery('');
+    setSearchQuery(''); // Also clear client-side search query
   };
 
-  const filteredResults = results.filter(place =>
-    place.Place.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
+  // --- MODIFIED: Determine which results to display ---
+  const displayedResults = searchQuery
+    ? results.filter(place =>
+        place.Place.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        place.City.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        place.State.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (place.place_desc && place.place_desc.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        (place.Type && place.Type.toLowerCase().includes(searchQuery.toLowerCase()))
+      )
+    : results; // If searchQuery is empty, display all fetched results
 
   return (
     <div className="recommend-container">
@@ -147,10 +159,10 @@ const Recommend = () => {
         <button type="button" onClick={resetFilters}>Reset Filters</button>
       </form>
 
-       <div className="recommend-controls">
+      <div className="recommend-controls">
         <input
           type="text"
-          placeholder="Search place name..."
+          placeholder="Filter results by name/city/state/type..." // Changed placeholder for clarity
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
@@ -169,17 +181,37 @@ const Recommend = () => {
 
       {message && <p className="recommend-message">{message}</p>}
 
-            <div className={`results ${viewMode === 'list' ? 'list-view' : 'grid-view'}`}>
-        {filteredResults.map((place, index) =>  (
-          <div key={index} className="result-card">
+      {/* --- MODIFIED: Render displayedResults --- */}
+      {displayedResults.length === 0 && !message && (
+        <p className="no-results-message">No recommendations found. Try different filters or reset them.</p>
+      )}
+
+      <div className={`results ${viewMode === 'list' ? 'list-view' : 'grid-view'}`}>
+        {displayedResults.map((place, index) => (
+          <div key={place.id || index} className="result-card"> {/* Use place.id for key if available */}
+            <img 
+                src={place.single_image || place.Image || "https://placehold.co/400x250/cccccc/333333?text=No+Image"} 
+                alt={place.Place} 
+                className="place-card-image"
+                onError={(e) => e.target.src = "https://placehold.co/400x250/cccccc/333333?text=No+Image"} // Fallback
+            />
             <h3>{place.Place}</h3>
             <p><strong>State:</strong> {place.State}</p>
             <p><strong>City:</strong> {place.City}</p>
             <p><strong>Type:</strong> {place.Type}</p>
-            <p><strong>Rating:</strong> {place.Ratings}</p>
+            <p>
+                <strong>Rating:</strong> 
+                {place.average_rating > 0 ? (
+                  <StarRatingDisplay rating={place.average_rating} />
+                ) : (
+                  ' Not yet rated'
+                )}
+            </p>
+            <p className="place-card-desc">{place.place_desc ? place.place_desc.substring(0, 100) + '...' : 'No description available.'}</p>
+
 
             <button onClick={() => {
-              console.log('Navigating with place data:', place); // ✅ Debug output
+              console.log('Navigating with place data:', place);
               navigate('/place-details', { state: { place } });
             }}>
               View Details

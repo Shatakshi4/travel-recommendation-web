@@ -1,111 +1,133 @@
-/* src/components/Navbar.css */
+/* Navbar.css */
+
 .navbar {
+    position: fixed; /* Make the navbar stick to the top */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px; /* Define a consistent height for the navbar */
+    background-color: #007bff; /* A distinct background color for the navbar */
+    color: white;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #003049;
-    padding: 1rem 2rem;
-    color: #fff;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+    padding: 0 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 10000; /* Ensure this is higher than any other z-index to always be on top */
+    box-sizing: border-box; /* Include padding in the element's total width and height */
+    font-family: 'Inter', sans-serif;
 }
 
-.navbar .logo {
-    font-size: 1.5rem;
+.logo {
+    font-size: 1.8rem;
     font-weight: bold;
-    letter-spacing: 1px;
+    cursor: pointer;
+    margin-right: 20px;
 }
 
 .nav-links {
-    display: flex;
     list-style: none;
     margin: 0;
     padding: 0;
-    gap: 1rem;
+    display: flex;
     align-items: center;
+    gap: 20px;
 }
 
 .nav-links li {
-    margin: 0;
+    position: relative; /* Needed for dropdown positioning */
 }
 
-.nav-links a,
 .nav-links button {
-    color: #fff;
-    text-decoration: none;
     background: none;
     border: none;
+    color: white;
     font-size: 1rem;
     cursor: pointer;
-    padding: 0.3rem 0.6rem;
-    border-radius: 4px;
-    transition: background-color 0.2s ease-in-out;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.nav-links a:hover,
 .nav-links button:hover {
-    background-color: rgba(255, 255, 255, 0.15);
-    text-decoration: underline;
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 .profile-menu {
     position: relative;
-    display: inline-block;
+    display: flex;
+    align-items: center;
 }
 
 .profile-icon {
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     cursor: pointer;
     border: 2px solid white;
+    transition: border-color 0.3s ease;
+}
+
+.profile-icon:hover {
+    border-color: #f0f0f0;
 }
 
 .dropdown {
     position: absolute;
+    top: 100%; /* Position below the profile icon */
     right: 0;
-    top: 45px;  /* Adjusted position based on profile icon size */
-    background-color: white;
-    border: 1px solid #ccc;
-    padding: 0.5rem 0;
-    min-width: 140px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    z-index: 100;
-    display: none;
-}
-
-.profile-menu:hover .dropdown {
-    display: block;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    min-width: 120px;
+    display: flex;
+    flex-direction: column;
+    z-index: 10001; /* Ensure dropdown is above navbar */
 }
 
 .dropdown button {
-    display: block;
     width: 100%;
-    padding: 8px 16px;
     text-align: left;
-    background: none;
+    padding: 10px 15px;
+    color: #333;
+    background-color: transparent;
     border: none;
     cursor: pointer;
-    color: #333;
+    transition: background-color 0.2s ease;
 }
 
 .dropdown button:hover {
     background-color: #f0f0f0;
 }
 
-.dark-mode-toggle {
-    background-color: transparent;
-    color: #fff;
-    border: 1px solid #fff;
-    padding: 0.3rem 0.7rem;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
+/* Responsive adjustments for Navbar */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        height: auto;
+        padding: 10px 20px;
+    }
 
-.dark-mode-toggle:hover {
-    background-color: #fff;
-    color: #003049;
+    .nav-links {
+        flex-direction: column;
+        width: 100%;
+        margin-top: 10px;
+        gap: 10px;
+    }
+
+    .nav-links li {
+        width: 100%;
+        text-align: center;
+    }
+
+    .nav-links button {
+        width: 100%;
+    }
+
+    .dropdown {
+        right: auto;
+        left: 50%;
+        transform: translateX(-50%);
+    }
 }

@@ -28,7 +28,7 @@ const Navbar = () => {
         <li><button onClick={() => navigate('/recommend')}>Recommendations</button></li>
         <li><button onClick={() => navigate('/favorites')}>Favorites</button></li>
         <li><button onClick={() => navigate('/places')}>All places</button></li>
-
+        <li><button onClick={() => navigate('/advanced-recommend')}>AdvancedRecommend</button></li>
         {isLoggedIn ? (
           <li className="profile-menu">
             <img

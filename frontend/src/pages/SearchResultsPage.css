@@ -1,0 +1,112 @@
+/* SearchResultsPage.css */
+
+.search-results-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: 'Inter', sans-serif;
+}
+
+.search-results-container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 28px;
+}
+
+.error-message {
+    color: #d9534f; /* Bootstrap danger red */
+    text-align: center;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    padding: 10px;
+}
+
+.place-card {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Ensure cards have consistent height */
+}
+
+.place-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.place-card-image {
+    width: 100%;
+    height: 200px; /* Fixed height for images */
+    object-fit: cover; /* Cover the area, cropping if necessary */
+    border-bottom: 1px solid #eee;
+}
+
+.place-card-info {
+    padding: 15px;
+    flex-grow: 1; /* Allows info section to expand */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Pushes content apart */
+}
+
+.place-card-info h3 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.place-card-info p {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.place-card-info strong {
+    color: #222;
+}
+
+.place-card-desc {
+    font-size: 13px;
+    color: #777;
+    margin-top: 10px;
+    line-height: 1.5;
+    /* Ensure description doesn't push other content too much */
+    max-height: 4.5em; /* Approximately 3 lines of text */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* StarRatingDisplay within cards */
+.place-card-info .star-rating-display {
+    display: inline-block; /* Keep stars on the same line as "Rating:" */
+    margin-left: 5px;
+    font-size: 1.1em; /* Adjust star size */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .search-results-container {
+        margin: 20px auto;
+        padding: 15px;
+    }
+    .results-grid {
+        grid-template-columns: 1fr; /* Stack cards on small screens */
+    }
+    .place-card-image {
+        height: 180px;
+    }
+}

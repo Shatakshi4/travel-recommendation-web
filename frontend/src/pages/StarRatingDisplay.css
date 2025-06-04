@@ -1,0 +1,40 @@
+.star-rating-display {
+  font-size: 1.5em; /* Adjust size as needed */
+  color: #ccc; /* Default empty star color */
+  display: flex;
+  align-items: center;
+}
+
+.star {
+  display: inline-block; /* Ensure stars are on one line */
+  margin-right: 2px; /* Small space between stars */
+}
+
+.star.filled {
+  color: gold; /* Color for full stars */
+}
+
+/* For half stars, you might need a more complex approach with gradients or SVG masks */
+/* For simplicity, we'll just color the half-star icon */
+.star.half-filled {
+  color: gold; /* or a slightly different color if you have a half-star icon */
+  /* You can use techniques like background-clip: text and linear-gradient for actual half-filled appearance */
+  position: relative;
+  overflow: hidden;
+}
+
+.star.half-filled::before {
+    content: '\2605'; /* Unicode star */
+    position: absolute;
+    width: 50%; /* Fill half */
+    overflow: hidden;
+    color: gold;
+    left: 0;
+}
+
+.rating-value {
+  margin-left: 8px;
+  font-size: 0.8em;
+  font-weight: bold;
+  color: #333;
+}

@@ -1,232 +1,366 @@
+/* General container for the entire Place Details page */
 .place-details-container {
-    max-width: 700px;
-    margin: 40px auto;
-    padding: 30px;
-    background: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    line-height: 1.6;
-}
-
-/* ✅ Sticky Header */
-.sticky-header {
+    font-family: 'Arial', sans-serif;
+    max-width: 900px; /* Reduced max-width for a smaller overall size */
+    margin: 15px auto; /* Slightly reduced vertical margin */
+    padding: 15px; /* Reduced padding */
+    background-color: #f9f9f9;
+    border-radius: 10px; /* Slightly less rounded corners */
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1); /* Softer shadow */
+    color: #333;
+  }
+  
+  /* --- Sticky Header --- */
+  .sticky-header {
+    display: flex;
+    justify-content: space-between; /* Distribute items with space between */
+    align-items: center;
+    padding: 10px 0; /* Reduced padding */
+    border-bottom: 1px solid #eee;
+    margin-bottom: 15px; /* Reduced bottom margin */
     position: sticky;
     top: 0;
-    background-color: #fff;
-    padding: 15px 20px;
-    z-index: 10;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-radius: 10px;
-}
-
-.place-details-container h2 {
-    margin-bottom: 20px;
-    font-size: 28px;
-    color: #333;
+    background-color: #f9f9f9;
+    z-index: 1000;
+    flex-wrap: nowrap; /* Prevent wrapping by default */
+  }
+  
+  .sticky-header h2 {
+    flex-grow: 1; /* Allow title to take available space */
     text-align: center;
-}
-/* Ensure the image container takes full width */
-.image-container {
-    width: 100%;
-    max-width: 100%;
-    border-radius: 10px;
+    margin: 0 10px; /* Reduced horizontal margin around title */
+    color: #2c3e50;
+    font-size: 1.8em; /* Reduced title font size */
+    font-weight: 700;
+    white-space: nowrap;
     overflow: hidden;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-overflow: ellipsis;
+    min-width: 0; /* Allow the title to shrink below its content size */
+  }
+  
+  /* --- Buttons in Header --- */
+  .back-button,
+  .favorite-button {
+    padding: 7px 12px; /* Further reduced padding for smaller buttons */
+    border: none;
+    border-radius: 18px; /* Slightly less rounded */
+    cursor: pointer;
+    font-size: 0.85em; /* Smaller font size */
+    transition: all 0.3s ease;
+    font-weight: 600;
     display: flex;
-    justify-content: center;
-}
-
-.place-details-container p {
-    font-size: 16px;
-    margin: 10px 0;
-    color: #555;
-}
-
-.place-details-container strong {
-    color: #222;
-}
-/* Ensure full image visibility */
-.place-image {
+    align-items: center;
+    gap: 4px; /* Reduced gap */
+    flex-shrink: 0; /* Prevent buttons from shrinking */
+  }
+  
+  .back-button {
+    background-color: #007bff;
+    color: white;
+    margin-right: 10px; /* Reduced margin */
+  }
+  
+  .back-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-1px); /* Smaller lift on hover */
+  }
+  
+  .favorite-button {
+    background-color: #007bff;
+    color: white;
+    margin-left: 10px; /* Reduced margin */
+  }
+  
+  .favorite-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-1px);
+  }
+  
+  /* --- Image Container and Main Image --- */
+  .image-container {
+    width: 100%;
+    max-height: 400px; /* Reduced max-height for main image */
+    overflow: hidden;
+    border-radius: 8px; /* Reduced border-radius */
+    margin-bottom: 25px; /* Reduced bottom margin */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12); /* Softer shadow */
+  }
+  
+  .place-main-image {
     width: 100%;
     height: auto;
-    /* Let the height adjust automatically */
-    max-height: 500px;
-    /* Adjust if necessary */
-    object-fit: contain;
-    /* Ensures full image visibility */
-    border-radius: 10px;
-}
-
-/* ✅ Gallery styles */
-.image-gallery {
-    margin-top: 30px;
-}
-
-.image-gallery h3 {
-    margin-bottom: 10px;
-    font-size: 20px;
-    color: #444;
-}
-
-.gallery-scroll {
+    display: block;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  
+  .place-main-image:hover {
+    transform: scale(1.02); /* Slightly less zoom on hover */
+  }
+  
+  /* --- Details Grid (Information and Map) --- */
+  .details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 25px; /* Reduced gap */
+    margin-bottom: 30px; /* Reduced bottom margin */
+    align-items: start;
+  }
+  
+  /* Info Card */
+  .info-card {
+    background-color: #ffffff;
+    padding: 20px; /* Reduced padding */
+    border-radius: 8px; /* Reduced border-radius */
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.06); /* Softer shadow */
+    border-left: 4px solid #3498db; /* Slightly thinner accent border */
+  }
+  
+  .info-card h3 {
+    color: #34495e;
+    margin-top: 0;
+    margin-bottom: 15px; /* Reduced bottom margin */
+    font-size: 1.6em; /* Reduced font size */
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px; /* Reduced padding */
+  }
+  
+  .info-card p {
+    margin-bottom: 8px; /* Reduced bottom margin */
+    line-height: 1.5; /* Slightly tighter line height */
+    font-size: 0.95em; /* Slightly smaller text */
+    color: #555;
+  }
+  
+  /* Map Container */
+  .map-container {
+    height: 350px; /* Reduced map height */
+    border-radius: 8px; /* Reduced border-radius */
+    overflow: hidden;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.06);
+  }
+  
+  .map-container iframe {
+    border-radius: 8px; /* Match container border-radius */
+  }
+  
+  /* --- Reviews Section (Assuming external component) --- */
+  .reviews-section-container {
+    margin-top: 30px; /* Reduced margin */
+    padding-top: 20px; /* Reduced padding */
+    border-top: 1px solid #eee;
+  }
+  
+  /* --- Image Gallery --- */
+  .image-gallery {
+    margin-top: 30px; /* Reduced margin */
+    background-color: #ffffff;
+    padding: 20px; /* Reduced padding */
+    border-radius: 8px; /* Reduced border-radius */
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.06);
+  }
+  
+  .image-gallery h3 {
+    color: #34495e;
+    margin-top: 0;
+    margin-bottom: 15px; /* Reduced bottom margin */
+    font-size: 1.6em; /* Reduced font size */
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px; /* Reduced padding */
+  }
+  
+  .gallery-scroll {
     display: flex;
     overflow-x: auto;
-    gap: 12px;
-    padding-bottom: 10px;
-}
-
-.gallery-img {
-    width: 200px;
-    height: 140px;
-    object-fit: cover;
-    border-radius: 8px;
-    flex-shrink: 0;
-    transition: transform 0.2s ease-in-out;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
-
-.gallery-img:hover {
-    transform: scale(1.05);
-}
-
-/* 🔗 Google Images button */
-.view-more-images-link {
-    display: inline-block;
-    margin-top: 15px;
-    color: white;
-    background-color: #0077cc;
-    padding: 10px 18px;
-    text-decoration: none;
-    border-radius: 6px;
-    font-size: 14px;
-    transition: background-color 0.2s;
-}
-
-.view-more-images-link:hover {
-    background-color: #005fa3;
-}
-
-.remove-btn,
-.back-btn {
-    margin-top: 20px;
-    margin-right: 15px;
-    padding: 10px 18px;
-    font-size: 14px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: 0.2s ease-in-out;
-}
-
-.remove-btn {
-    background-color: #ff4d4d;
-    color: white;
-}
-
-.remove-btn:hover {
-    background-color: #e60000;
-}
-
-.back-btn {
-    background-color: #ddd;
-    color: #333;
-}
-
-.back-btn:hover {
-    background-color: #bbb;
-}
-
-.map-container {
-    margin-top: 25px;
-}
-
-.details-map-section {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    margin-top: 30px;
-}
-
-.text-details {
-    flex: 1 1 300px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.map-container {
-    flex: 1 1 300px;
-    min-height: 300px;
+    gap: 12px; /* Reduced gap */
+    padding-bottom: 8px; /* Reduced padding */
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: #ccc #f1f1f1;
+  }
+  
+  .gallery-scroll::-webkit-scrollbar {
+    height: 7px; /* Slightly thinner scrollbar */
+  }
+  
+  .gallery-scroll::-webkit-scrollbar-track {
+    background: #f1f1f1;
     border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* ✍️ Reviews Section */
-.reviews-section {
-    margin-top: 40px;
-    padding-top: 20px;
-    border-top: 1px solid #eee;
-}
-
-.reviews-section h3 {
-    font-size: 22px;
-    margin-bottom: 15px;
-    color: #444;
-}
-
-.reviews-section ul {
-    list-style: none;
-    padding: 0;
-    margin-bottom: 20px;
-}
-
-.reviews-section li {
-    background-color: #f9f9f9;
-    padding: 12px 16px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-.reviews-section li strong {
-    color: #333;
-}
-
-/* ✅ Add Review Form */
-.add-review {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.add-review textarea {
-    width: 100%;
-    min-height: 80px;
-    padding: 10px 12px;
-    font-size: 14px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    resize: vertical;
-    font-family: inherit;
-}
-
-.add-review button {
-    align-self: flex-end;
-    padding: 8px 16px;
-    background-color: #0077cc;
+  }
+  
+  .gallery-scroll::-webkit-scrollbar-thumb {
+    background: #bbb; /* Slightly darker thumb */
+    border-radius: 10px;
+  }
+  
+  .gallery-scroll::-webkit-scrollbar-thumb:hover {
+    background: #888;
+  }
+  
+  .gallery-img {
+    width: 200px; /* Reduced width for gallery images */
+    height: 140px; /* Reduced height for gallery images */
+    object-fit: cover;
+    border-radius: 6px; /* Reduced border-radius */
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08); /* Softer shadow */
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+  }
+  
+  .gallery-img:hover {
+    transform: scale(1.03); /* Slightly less zoom */
+  }
+  
+  /* --- View More Photos Link --- */
+  .view-more-photos-link {
+    display: block;
+    text-align: center;
+    margin-top: 25px; /* Reduced margin */
+    padding: 10px 20px; /* Reduced padding */
+    background-color: #28a745;
     color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.2s ease-in-out;
-}
-
-.add-review button:hover {
-    background-color: #005fa3;
-}
+    text-decoration: none;
+    border-radius: 20px; /* Slightly less rounded */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    font-weight: 600;
+    font-size: 0.9em; /* Smaller font size */
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .view-more-photos-link:hover {
+    background-color: #218838;
+    transform: translateY(-1px);
+  }
+  
+  /* --- Messages (Loading, Error, Info) --- */
+  .loading-message,
+  .error-message,
+  .info-message {
+    text-align: center;
+    padding: 15px; /* Reduced padding */
+    font-size: 1.1em; /* Slightly smaller font size */
+    color: #555;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.05);
+    margin: 30px auto; /* Reduced margin */
+    max-width: 500px; /* Reduced max-width */
+  }
+  
+  .error-message {
+    color: #d9534f;
+    background-color: #fdd;
+    border: 1px solid #d9534f;
+  }
+  
+  /* --- Responsive Adjustments --- */
+  @media (max-width: 992px) {
+    .details-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .map-container {
+      height: 300px; /* Further adjust map height */
+    }
+  
+    .sticky-header {
+      flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+      justify-content: center;
+      padding: 10px;
+    }
+  
+    .sticky-header h2 {
+      width: 100%; /* Title takes full width on wrap */
+      margin-bottom: 10px; /* Add space below title when wrapped */
+      font-size: 1.6em; /* Adjust font size for wrapped title */
+      margin-left: 0;
+      margin-right: 0;
+    }
+  
+    .back-button,
+    .favorite-button {
+      margin: 5px 8px; /* Adjust button margins when wrapped */
+      font-size: 0.8em; /* Smaller font size */
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .place-details-container {
+      padding: 10px; /* Further reduced padding */
+      margin: 10px auto;
+    }
+  
+    .sticky-header h2 {
+      font-size: 1.5em; /* Smaller title on tablets */
+    }
+  
+    .back-button,
+    .favorite-button {
+      padding: 6px 10px; /* Even smaller buttons */
+      font-size: 0.75em;
+    }
+  
+    .info-card h3,
+    .image-gallery h3 {
+      font-size: 1.4em;
+    }
+  
+    .map-container {
+      height: 280px;
+    }
+  
+    .gallery-img {
+      width: 180px;
+      height: 120px;
+    }
+  
+    .info-card p {
+      font-size: 0.9em;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .sticky-header {
+      flex-direction: column; /* Stack header items on very small screens */
+      align-items: stretch; /* Stretch buttons to full width */
+    }
+  
+    .sticky-header h2 {
+      font-size: 1.4em; /* Smallest title size */
+      margin-bottom: 8px;
+      text-align: center;
+    }
+  
+    .back-button,
+    .favorite-button {
+      width: calc(100% - 16px); /* Buttons take full width with padding */
+      justify-content: center;
+      margin: 4px 8px; /* Consistent margin */
+      font-size: 0.7em; /* Smallest button text */
+      padding: 8px 10px; /* Slightly increased vertical padding for clickability */
+    }
+  
+    .place-main-image {
+      max-height: 250px;
+    }
+  
+    .map-container {
+      height: 220px;
+    }
+  
+    .gallery-scroll {
+      gap: 8px; /* Smallest gap */
+    }
+  
+    .gallery-img {
+      width: 120px;
+      height: 90px;
+    }
+  
+    .view-more-photos-link {
+      font-size: 0.8em;
+      padding: 8px 15px;
+    }
+  }

@@ -1,46 +1,460 @@
 /* src/pages/Places.css */
-.places-container {
-    padding: 2rem;
-    background-color: #f7f7f7;
-    min-height: 100vh;
+
+/* --- CSS Variables for Easy Customization --- */
+:root {
+    /* Colors */
+    --primary-color: #3498db;
+    /* Blue for main accents */
+    --primary-dark-color: #2980b9;
+    /* Darker blue for hover */
+    --secondary-color: #2c3e50;
+    /* Dark text for headings */
+    --text-light-color: #555;
+    /* General paragraph text */
+    --background-light: #f8f9fa;
+    /* Page background */
+    --card-background: #ffffff;
+    /* Card background */
+    --border-color: #e0e6ed;
+    /* Border for cards/elements */
+    --accent-green: #27ae60;
+    /* Rating badge color */
+
+    /* Spacing Scale */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 1.5rem;
+    --spacing-lg: 2rem;
+    --spacing-xl: 3rem;
+    --spacing-xxl: 4rem;
+    /* Added for more top/bottom spacing */
+
+    /* Shadows */
+    --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-md: 0 8px 25px rgba(0, 0, 0, 0.1);
+
+    /* Border Radius */
+    --border-radius-sm: 8px;
+    --border-radius-md: 12px;
 }
 
+/* --- General Container Styling --- */
+.places-container {
+    padding: var(--spacing-xxl) var(--spacing-sm);
+    /* Generous responsive padding */
+    max-width: 1200px;
+    /* Max width for content on larger screens */
+    margin: 0 auto;
+    /* Center the container */
+    font-family: 'Arial', sans-serif;
+    color: var(--text-light-color);
+    background-color: var(--background-light);
+    /* Ensure background is set */
+    min-height: 100vh;
+    /* Make sure the container fills the viewport height */
+    box-sizing: border-box;
+    /* Include padding in element's total width/height */
+}
+
+/* Heading Styling */
 .places-container h2 {
     text-align: center;
-    margin-bottom: 2rem;
-    color: #333;
+    color: var(--secondary-color);
+    margin-bottom: var(--spacing-lg);
+    /* Space below heading, before search */
+    font-size: 2.5em;
+    font-weight: 700;
+    position: relative;
+    padding-bottom: 0.5rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
 }
 
+.places-container h2::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background-color: var(--primary-color);
+    border-radius: 2px;
+}
+
+/* --- Search Bar Styling --- */
+.search-bar-container {
+    margin-bottom: var(--spacing-lg);
+    /* Space below search bar */
+    text-align: center;
+    /* Center the input field */
+    width: 100%;
+    max-width: 600px;
+    /* Limit search bar width */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.search-input {
+    width: 100%;
+    padding: 12px 20px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    font-size: 1.1em;
+    color: var(--text-light-color);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+    /* Subtle inner shadow */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+    /* Focus ring effect */
+}
+
+/* --- View Toggle Buttons --- */
+.view-toggle-buttons {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+    /* Space below buttons */
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-sm);
+}
+
+.view-toggle-buttons button {
+    padding: 0.8rem 1.5rem;
+    background-color: #ecf0f1;
+    color: var(--secondary-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.view-toggle-buttons button:hover {
+    background-color: #dbe4e6;
+    color: var(--primary-dark-color);
+}
+
+.view-toggle-buttons button.active {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+    box-shadow: var(--shadow-sm);
+}
+
+.view-toggle-buttons button.active:hover {
+    background-color: var(--primary-dark-color);
+    color: white;
+}
+
+/* --- Places List Container - Base Styles --- */
 .places-list {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1.5rem;
+    gap: var(--spacing-md);
+    justify-content: center;
+    padding: 0 var(--spacing-sm);
 }
 
-.place-card {
-    background-color: white;
-    padding: 1rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease;
+/* --- Grid View Specific Styles (Default) --- */
+.places-list.grid-view {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    max-width: 1200px;
+    margin: 0 auto;
 }
-.place-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 10px;
+
+/* --- List View Specific Styles --- */
+.places-list.list-view {
+    grid-template-columns: 1fr;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.places-list.list-view .place-card {
+    flex-direction: row;
+    align-items: flex-start;
+    padding: var(--spacing-sm);
+}
+
+.places-list.list-view .place-image {
+    width: 150px;
+    height: 120px;
+    border-radius: var(--border-radius-sm);
+    margin-right: var(--spacing-md);
+    flex-shrink: 0;
+}
+
+.places-list.list-view .place-info {
+    padding: 0;
+    flex-grow: 1;
+}
+
+.places-list.list-view .place-info h3 {
+    font-size: 1.3em;
+    margin-bottom: 0.3rem;
+}
+
+.places-list.list-view .place-info p {
+    font-size: 0.9em;
+    margin-bottom: 0.2rem;
+}
+
+.place-description-snippet {
+    display: none;
+    font-size: 0.85em;
+    color: #666;
+    margin-top: var(--spacing-xs);
+    line-height: 1.4;
+}
+
+.places-list.list-view .place-description-snippet {
+    display: block;
+}
+
+
+/* --- Individual Place Card Styling (Base for both views) --- */
+.place-card {
+    background-color: var(--card-background);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .place-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+    background-color: #fcfcfc;
 }
 
-.place-card h3 {
-    margin: 0;
-    color: #1e88e5;
+.place-image {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-bottom: 1px solid var(--border-color);
+    transition: transform 0.3s ease;
 }
 
-.place-card p {
-    margin: 0.3rem 0;
-    color: #555;
+.place-card:hover .place-image {
+    transform: scale(1.03);
+}
+
+.place-info {
+    padding: var(--spacing-sm);
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.place-info h3 {
+    font-size: 1.4em;
+    color: var(--secondary-color);
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+}
+
+.place-info p {
+    font-size: 0.9em;
+    color: var(--text-light-color);
+    margin: 0.2rem 0;
+}
+
+.place-info p strong {
+    color: var(--secondary-color);
+    font-weight: 600;
+}
+
+.place-rating {
+    margin-top: 0.5rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.place-rating strong {
+    flex-shrink: 0;
+}
+
+.place-rating span {
+    background-color: var(--accent-green);
+    color: white;
+    padding: 0.2em 0.6em;
+    border-radius: 4px;
+    font-size: 0.9em;
+    letter-spacing: 0.5px;
+    margin-left: var(--spacing-xs);
+}
+
+/* --- Message styles (reused from Dashboard) --- */
+.info-message,
+.error-message {
+    text-align: center;
+    font-size: 1.2em;
+    /* Adjusted slightly for places page */
+    padding: var(--spacing-lg) var(--spacing-md);
+    width: 100%;
+    box-sizing: border-box;
+    font-weight: 500;
+    border-radius: var(--border-radius-md);
+    margin: var(--spacing-xl) auto;
+    max-width: 700px;
+}
+
+.info-message {
+    color: var(--primary-color);
+    background-color: #e6f7ff;
+    border: 1px solid #cceeff;
+}
+
+.error-message {
+    color: #c0392b;
+    background-color: #ffebe6;
+    border: 1px solid #ffccb3;
+}
+
+.info-message.no-results {
+    color: #7f8c8d;
+    background-color: #f2f4f7;
+    border: 1px solid #e0e6ed;
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+    .places-container {
+        padding: var(--spacing-lg) var(--spacing-sm);
+    }
+
+    .places-container h2 {
+        font-size: 2.2em;
+        margin-bottom: var(--spacing-md);
+        /* Adjust margin for smaller screens */
+    }
+
+    .search-bar-container {
+        margin-bottom: var(--spacing-md);
+    }
+
+    .search-input {
+        padding: 10px 15px;
+        font-size: 1em;
+    }
+
+    .view-toggle-buttons {
+        margin-bottom: var(--spacing-md);
+    }
+
+    .places-list.grid-view {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+
+    .place-image {
+        height: 160px;
+    }
+
+    .places-list.list-view .place-image {
+        width: 120px;
+        height: 100px;
+        margin-right: var(--spacing-sm);
+    }
+
+    .place-info h3 {
+        font-size: 1.2em;
+    }
+
+    .place-info p {
+        font-size: 0.85em;
+    }
+
+    .place-rating span {
+        font-size: 0.8em;
+    }
+
+    .place-description-snippet {
+        font-size: 0.8em;
+    }
+}
+
+@media (max-width: 480px) {
+    .places-container {
+        padding: var(--spacing-md) var(--spacing-xs);
+    }
+
+    .places-container h2 {
+        font-size: 1.8em;
+        margin-bottom: var(--spacing-sm);
+        /* Further adjust margin */
+    }
+
+    .search-bar-container {
+        margin-bottom: var(--spacing-sm);
+    }
+
+    .search-input {
+        padding: 8px 12px;
+        font-size: 0.9em;
+    }
+
+    .view-toggle-buttons button {
+        padding: 0.6rem 1rem;
+        font-size: 0.9em;
+    }
+
+    .places-list.grid-view {
+        grid-template-columns: 1fr;
+        /* Single column on very small screens */
+    }
+
+    .place-card {
+        padding-bottom: var(--spacing-sm);
+    }
+
+    .place-image {
+        height: 150px;
+    }
+
+    .places-list.list-view .place-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .places-list.list-view .place-image {
+        width: 100%;
+        height: 160px;
+        margin-right: 0;
+        margin-bottom: var(--spacing-sm);
+    }
+
+    .place-info {
+        padding: var(--spacing-sm);
+    }
+
+    .place-info h3 {
+        font-size: 1.1em;
+    }
+
+    .place-info p {
+        font-size: 0.8em;
+    }
+
+    .place-rating {
+        justify-content: center;
+    }
+
+    .info-message,
+    .error-message {
+        font-size: 1em;
+        padding: var(--spacing-md);
+        margin: var(--spacing-lg) auto;
+    }
 }

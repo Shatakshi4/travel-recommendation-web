@@ -1,48 +1,532 @@
-.dashboard {
-    padding: 2rem;
-    font-family: 'Segoe UI', sans-serif;
-    max-width: 1000px;
-    margin: auto;
+/* src/pages/Dashboard.css */
+
+/* --- CSS Variables for Easy Customization --- */
+/* These variables allow you to change your entire theme from one place. */
+:root {
+  /* Colors */
+  --primary-color: #3498db;
+  /* A vibrant blue for main accents (buttons, links) */
+  --primary-dark-color: #2980b9;
+  /* Darker shade for hover states */
+  --secondary-color: #2c3e50;
+  /* Darker text for headings and strong emphasis */
+  --text-light-color: #555;
+  /* General paragraph text color */
+  --background-light: #f8f9fa;
+  /* Very light background for the page */
+  --card-background: #ffffff;
+  /* Pure white background for content cards */
+  --list-item-background: #f7f9fc;
+  /* Slightly off-white for list items */
+  --border-color: #e0e6ed;
+  /* Subtle border for cards and list items */
+  --accent-green: #27ae60;
+  /* For success messages or positive actions */
+  --accent-red: #e74c3c;
+  /* For warning, error, or destructive actions (logout) */
+  --accent-purple: #8e44ad;
+  /* Custom color for 'Preferences' button */
+  --accent-orange: #f39c12;
+  /* Custom color for 'Recommendations' button */
+
+  /* Spacing Scale (consistent spacing throughout) */
+  --spacing-xs: 0.5rem;
+  /* 8px */
+  --spacing-sm: 1rem;
+  /* 16px */
+  --spacing-md: 1.5rem;
+  /* 24px */
+  --spacing-lg: 2rem;
+  /* 32px */
+  --spacing-xl: 3rem;
+  /* 48px */
+  --spacing-xxl: 4rem;
+  /* 64px */
+
+  /* Shadows (for depth and visual separation) */
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 8px 25px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 12px 35px rgba(0, 0, 0, 0.15);
+
+  /* Border Radius (for rounded corners consistency) */
+  --border-radius-sm: 8px;
+  --border-radius-md: 12px;
+  --border-radius-lg: 16px;
+
+  /* Font Weights */
+  --font-light: 300;
+  --font-regular: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+}
+
+/* --- General Container & Global Styles --- */
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--spacing-xxl) var(--spacing-md);
+  /* Generous responsive padding */
+  background: linear-gradient(135deg, var(--background-light) 0%, #edf0f5 100%);
+  /* Subtle gradient for depth */
+  font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  color: var(--text-light-color);
+  min-height: 100vh;
+  /* Ensures it takes full viewport height */
+  box-sizing: border-box;
+}
+
+.dashboard-container h2 {
+  color: var(--secondary-color);
+  margin-bottom: var(--spacing-sm);
+  font-size: 2.8em;
+  font-weight: var(--font-bold);
+  text-align: center;
+  letter-spacing: -0.5px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+  /* Soft text shadow for headings */
+}
+
+.dashboard-container>p {
+  /* Targets the direct child paragraph (email) */
+  font-size: 1.15em;
+  color: var(--text-light-color);
+  margin-bottom: var(--spacing-xl);
+  /* Increased spacing below email for visual break */
+  text-align: center;
+  font-weight: var(--font-light);
+  line-height: 1.5;
+  /* Improved readability */
+}
+
+/* --- Dashboard Sections Grid Layout --- */
+.dashboard-sections {
+  display: grid;
+  grid-template-columns: 1fr;
+  /* Default to single column on small screens */
+  gap: var(--spacing-xl);
+  /* Increased gap between sections for clear separation */
+  width: 100%;
+  max-width: 1200px;
+  /* Limits overall dashboard width for aesthetics */
+  margin-top: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+}
+
+/* Specific layout for larger screens */
+@media (min-width: 768px) {
+  .dashboard-sections {
+    grid-template-areas:
+      "favorites preferences"
+      "activity activity";
+    /* Activity spans both columns */
+    grid-template-columns: 1fr 1fr;
+    /* Two equal columns */
+    gap: var(--spacing-lg);
+    /* Slightly less gap on larger screens */
   }
-  
-  h1 {
-    font-size: 2.5rem;
-    color: #333;
+}
+
+/* Assign grid areas - no change needed here, it's perfect! */
+.dashboard-section.favorites {
+  grid-area: favorites;
+}
+
+.dashboard-section.preferences {
+  grid-area: preferences;
+}
+
+.dashboard-section.recent-activity {
+  grid-area: activity;
+}
+
+
+/* --- Individual Dashboard Section Card Styling --- */
+.dashboard-section {
+  background-color: var(--card-background);
+  padding: var(--spacing-lg);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-md);
+  /* Consistent shadow */
+  border: 1px solid var(--border-color);
+  /* Subtle border for definition */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  /* Aligns content to the top within its section */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  /* Smooth hover effects */
+}
+
+.dashboard-section:hover {
+  transform: translateY(-3px);
+  /* Lifts the section slightly on hover */
+  box-shadow: var(--shadow-lg);
+  /* More prominent shadow on hover */
+}
+
+.dashboard-section h3 {
+  color: var(--secondary-color);
+  margin-bottom: var(--spacing-md);
+  font-size: 2em;
+  font-weight: var(--font-semibold);
+  position: relative;
+  padding-bottom: 10px;
+  /* Space for the underline */
+  letter-spacing: -0.3px;
+}
+
+.dashboard-section h3::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 60px;
+  height: 3px;
+  background-color: var(--primary-color);
+  /* Underline uses primary color */
+  border-radius: 2px;
+}
+
+.dashboard-section ul {
+  list-style: none;
+  padding: 0;
+  width: 100%;
+  margin-top: var(--spacing-sm);
+  flex-grow: 1;
+  /* Allows the list to take up available space, pushing buttons to the bottom */
+}
+
+.dashboard-section li {
+  background-color: var(--list-item-background);
+  margin-bottom: var(--spacing-sm);
+  /* Consistent space between list items */
+  padding: 12px 18px;
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--border-color);
+  font-size: 0.98em;
+  color: #444;
+  /* Slightly darker than text-light-color for list items */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  word-break: break-word;
+  /* Prevents long text from overflowing */
+  line-height: 1.4;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.dashboard-section li:hover {
+  background-color: #eef2f7;
+  /* Slightly darker on hover */
+  border-color: var(--primary-color);
+  /* Highlight border on hover */
+}
+
+.dashboard-section li:last-child {
+  margin-bottom: 0;
+  /* No margin after the last list item */
+}
+
+/* Combined paragraph styling for consistency */
+.dashboard-section>p,
+.dashboard-section div p {
+  font-style: normal;
+  color: var(--text-light-color);
+  margin-top: var(--spacing-xs);
+  /* Small top margin */
+  margin-bottom: var(--spacing-xs);
+  /* Small bottom margin for consistency */
+  text-align: left;
+  font-size: 1em;
+  line-height: 1.6;
+  /* Improved readability for paragraphs */
+}
+
+.dashboard-section div p strong {
+  color: var(--secondary-color);
+  font-weight: var(--font-medium);
+  /* Emphasized text */
+}
+
+/* --- Activity specific styles --- */
+.activity-place {
+  color: var(--primary-color);
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: var(--font-medium);
+  transition: color 0.2s ease, text-decoration 0.2s ease;
+}
+
+.activity-place:hover {
+  color: var(--primary-dark-color);
+  text-decoration: underline;
+}
+
+.activity-timestamp {
+  font-size: 0.8em;
+  color: #888;
+  /* Slightly darker grey for timestamps */
+  margin-left: var(--spacing-sm);
+  /* More defined space from content */
+  white-space: nowrap;
+  /* Prevents timestamp from wrapping */
+  opacity: 0.9;
+  flex-shrink: 0;
+  /* Ensures it doesn't shrink */
+}
+
+/* --- Buttons within sections --- */
+.dashboard-section .section-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  /* Allows buttons to wrap to the next line */
+  gap: var(--spacing-sm);
+  /* Space between buttons */
+  margin-top: var(--spacing-md);
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.dashboard-section button {
+  padding: 12px 25px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  font-size: 0.95em;
+  font-weight: var(--font-semibold);
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
+  /* Prevents buttons from shrinking in flex container */
+  min-width: 120px;
+  /* Ensure a minimum width for better aesthetics */
+}
+
+.dashboard-section button:hover {
+  background-color: var(--primary-dark-color);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  /* Enhanced hover shadow */
+}
+
+.dashboard-section button:active {
+  transform: translateY(0);
+  /* Button returns to original position */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  /* Subtle press shadow */
+}
+
+/* Specific button colors (now using variables for consistency) */
+.preferences-button {
+  background-color: var(--accent-purple);
+}
+
+.preferences-button:hover {
+  background-color: #6a0572;
+  /* Darker purple on hover */
+}
+
+.view-personalized-recommendations-button {
+  background-color: var(--accent-orange);
+}
+
+.view-personalized-recommendations-button:hover {
+  background-color: #d18210;
+  /* Darker orange on hover */
+}
+
+/* --- Main Logout Button (at the bottom of the dashboard) --- */
+.logout-button {
+  padding: 15px 35px;
+  background-color: var(--accent-red);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius-sm);
+  /* Consistent border radius */
+  cursor: pointer;
+  font-size: 1.1em;
+  /* Slightly smaller than your original for better balance */
+  font-weight: var(--font-semibold);
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: var(--shadow-md);
+  margin-top: var(--spacing-xxl);
+  /* Generous top margin for separation */
+  margin-bottom: var(--spacing-xl);
+  /* Add some bottom margin too */
+}
+
+.logout-button:hover {
+  background-color: #c0392b;
+  /* Darker red on hover */
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.logout-button:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Message Styles (Loading, Error, Info) --- */
+.loading-message,
+.error-message,
+.info-message {
+  text-align: center;
+  font-size: 1.4em;
+  padding: var(--spacing-xl) var(--spacing-md);
+  /* Generous padding */
+  width: 100%;
+  box-sizing: border-box;
+  font-weight: var(--font-medium);
+  border-radius: var(--border-radius-md);
+  margin: var(--spacing-xl) auto;
+  /* Centered with vertical margin */
+  max-width: 700px;
+  line-height: 1.5;
+}
+
+.loading-message {
+  color: var(--primary-color);
+  background-color: #e6f7ff;
+  /* Very light blue background */
+  border: 1px solid #cceeff;
+  /* Light blue border */
+}
+
+.error-message {
+  color: var(--accent-red);
+  background-color: #ffebe6;
+  /* Very light red background */
+  border: 1px solid #ffccb3;
+  /* Light red border */
+}
+
+.info-message {
+  color: #7f8c8d;
+  /* Neutral grey */
+  background-color: #f2f4f7;
+  /* Light grey background */
+  border: 1px solid #e0e6ed;
+  /* Light grey border */
+}
+
+/* --- Media Queries for Responsiveness --- */
+@media (max-width: 1024px) {
+  .dashboard-container {
+    padding: var(--spacing-xl) var(--spacing-md);
   }
-  
-  .section {
-    margin-top: 2rem;
+
+  .dashboard-container h2 {
+    font-size: 2.5em;
   }
-  
-  .card-row {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    margin-top: 1rem;
+}
+
+@media (max-width: 767px) {
+
+  /* Adjustments for tablets and smaller */
+  .dashboard-sections {
+    gap: var(--spacing-lg);
+    /* Slightly reduced gap in single column */
   }
-  
-  .card {
-    background-color: #f7f7f7;
-    padding: 1rem;
-    border-radius: 12px;
-    flex: 1 1 200px;
-    cursor: pointer;
-    transition: transform 0.2s;
+
+  .dashboard-container h2 {
+    font-size: 2.2em;
   }
-  
-  .card:hover {
-    transform: translateY(-5px);
-    background-color: #e0f7fa;
+
+  .dashboard-container>p {
+    font-size: 1em;
+    margin-bottom: var(--spacing-lg);
   }
-  
-  .logout-btn {
-    margin-top: 2rem;
-    padding: 0.8rem 1.2rem;
-    border: none;
-    background-color: #e53935;
-    color: white;
-    font-size: 1rem;
-    border-radius: 8px;
-    cursor: pointer;
+
+  .dashboard-section {
+    padding: var(--spacing-md);
   }
-  
+
+  .dashboard-section h3 {
+    font-size: 1.8em;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .dashboard-section button {
+    padding: 10px 20px;
+    font-size: 0.9em;
+    min-width: unset;
+    /* Allow buttons to shrink on small screens */
+  }
+
+  .logout-button {
+    font-size: 1em;
+    padding: 12px 25px;
+    margin-top: var(--spacing-xl);
+  }
+
+  .loading-message,
+  .error-message,
+  .info-message {
+    font-size: 1.2em;
+    padding: var(--spacing-md);
+    margin: var(--spacing-lg) auto;
+  }
+
+  .dashboard-section li {
+    flex-direction: column;
+    /* Stack content in list items on small screens */
+    align-items: flex-start;
+  }
+
+  .activity-timestamp {
+    margin-left: 0;
+    margin-top: 5px;
+    /* Space from place name when stacked */
+    font-size: 0.75em;
+  }
+}
+
+@media (max-width: 480px) {
+
+  /* Specific adjustments for mobile phones */
+  .dashboard-container {
+    padding: var(--spacing-lg) var(--spacing-sm);
+  }
+
+  .dashboard-container h2 {
+    font-size: 2em;
+  }
+
+  .dashboard-sections {
+    gap: var(--spacing-md);
+  }
+
+  .dashboard-section {
+    padding: var(--spacing-sm);
+  }
+
+  .dashboard-section h3 {
+    font-size: 1.5em;
+  }
+
+  .dashboard-section .section-buttons {
+    gap: var(--spacing-xs);
+  }
+
+  .dashboard-section button {
+    font-size: 0.85em;
+    padding: 8px 15px;
+  }
+
+  .logout-button {
+    font-size: 0.9em;
+    padding: 10px 20px;
+    margin-top: var(--spacing-lg);
+  }
+
+  .loading-message,
+  .error-message,
+  .info-message {
+    font-size: 1em;
+  }
+}

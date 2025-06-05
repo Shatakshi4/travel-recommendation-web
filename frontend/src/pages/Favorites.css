@@ -1,4 +1,4 @@
-/* src/pages/Favorites.css */
+/* src/pages/Favorites.css
 .favorites-container {
     padding: 20px;
     text-align: center;
@@ -37,4 +37,132 @@
 
 .remove-btn:hover {
     background-color: #e60000;
+} */
+
+/* src/pages/Favorites.css */
+
+.favorites-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    background-color: #f0f2f5;
+    /* Light, neutral background */
+    font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    color: #333;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+.favorites-container h2 {
+    color: #2c3e50;
+    margin-bottom: 30px;
+    font-size: 2.8em;
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: -0.5px;
+}
+
+.favorites-container p {
+    font-size: 1.15em;
+    color: #555;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* --- Grid for Place Cards --- */
+.favorites-grid {
+    display: grid;
+    /* Responsive grid: 1 column on small screens, 2-3 on larger */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    /* Space between cards */
+    width: 100%;
+    max-width: 1200px;
+    /* Max width for the grid */
+    margin-top: 20px;
+}
+
+/* --- Individual Favorite/Recommended Card --- */
+.favorite-card {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    /* Soft, elevated shadow */
+    border: 1px solid #eaeaef;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* Push button to bottom */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* Smooth hover effects */
+}
+
+.favorite-card:hover {
+    transform: translateY(-5px);
+    /* Lift card on hover */
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+}
+
+/* Styling for the Link wrapping the card content */
+.place-link {
+    text-decoration: none;
+    /* Remove default underline from Link */
+    color: inherit;
+    /* Inherit text color from parent */
+    display: block;
+    /* Make the link cover the whole content area */
+    flex-grow: 1;
+    /* Allow link content to take available space */
+}
+
+.favorite-card h3 {
+    color: #34495e;
+    /* Darker blue-grey for place name */
+    margin-bottom: 10px;
+    font-size: 1.8em;
+    font-weight: 600;
+    line-height: 1.2;
+    text-align: center;
+    /* Center the place name */
+}
+
+.favorite-card p {
+    font-size: 1em;
+    color: #666;
+    margin-bottom: 15px;
+    /* Space above the button */
+    text-align: center;
+    /* Center the state info */
+}
+
+/* --- Remove Button --- */
+.remove-btn {
+    display: block;
+    /* Make button take full width of card */
+    width: 100%;
+    padding: 10px 15px;
+    background-color: #e74c3c;
+    /* Red for remove action */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.95em;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.remove-btn:hover {
+    background-color: #c0392b;
+    /* Darker red on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.remove-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
 }

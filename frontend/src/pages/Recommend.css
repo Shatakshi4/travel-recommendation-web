@@ -1,200 +1,470 @@
+/* General Page Layout */
 .recommend-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     padding: 40px 20px;
-    text-align: center;
-    background-color: #f7f8fa;
+    background-color: #f0f2f5;
+    /* Light, neutral background */
+    font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    color: #333;
     min-height: 100vh;
+    box-sizing: border-box;
 }
 
 .recommend-container h2 {
-    font-size: 28px;
-    margin-bottom: 30px;
     color: #2c3e50;
+    margin-bottom: 30px;
+    font-size: 2.8em;
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: -0.5px;
 }
 
+/* Recommendation Form Styles */
 .recommend-form {
     display: flex;
     flex-wrap: wrap;
+    /* Allow items to wrap on smaller screens */
     gap: 15px;
+    /* Space between form elements */
     justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 25px 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
     margin-bottom: 40px;
+    /* Space below the form */
+    width: 100%;
+    max-width: 900px;
+    /* Limit form width */
 }
 
 .recommend-form select,
 .recommend-form button {
-    padding: 12px 18px;
-    font-size: 16px;
+    padding: 12px 20px;
+    border: 1px solid #ced4da;
     border-radius: 8px;
-    border: 1px solid #ccc;
-    outline: none;
+    font-size: 1em;
+    color: #495057;
+    background-color: #fff;
+    appearance: none;
+    /* Remove default select arrow */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.recommend-form select {
+    flex: 1;
+    /* Allow selects to grow */
     min-width: 180px;
+    /* Minimum width for selects */
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23495057%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13.2-6.5H18.6c-5%200-9.3%201.8-13.2%206.5C1.8%2073.3%200%2077.5%200%2082.5c0%205%201.8%209.3%205.5%2013.2l128%20128c3.9%203.9%208.2%205.5%2013.2%205.5s9.3-1.8%2013.2-5.5l128-128c3.7-3.9%205.5-8.2%205.5-13.2%200-5-1.8-9.2-5.5-13.1z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px;
+    padding-right: 35px;
+    /* Make space for the custom arrow */
+}
+
+.recommend-form select:focus,
+.recommend-form input:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    outline: none;
 }
 
 .recommend-form button {
-    background-color: #3498db;
+    background-color: #007bff;
     color: white;
-    cursor: pointer;
-    border: none;
-    transition: background-color 0.3s ease;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
 }
 
 .recommend-form button:hover {
-    background-color: #2c80b4;
+    background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 123, 255, 0.3);
 }
 
-.recommend-message {
-    font-size: 18px;
-    color: #c0392b;
-    margin-bottom: 20px;
+.recommend-form button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(0, 123, 255, 0.2);
 }
 
+.recommend-form button[type="reset"] {
+    /* Style for Reset Filters button */
+    background-color: #6c757d;
+    box-shadow: 0 4px 10px rgba(108, 117, 125, 0.2);
+}
+
+.recommend-form button[type="reset"]:hover {
+    background-color: #5a6268;
+    box-shadow: 0 6px 15px rgba(108, 117, 125, 0.3);
+}
+
+/* Controls Section (Search, Sort, View Mode) */
+.recommend-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 20px 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    /* Same shadow as form */
+    margin-bottom: 40px;
+    width: 100%;
+    max-width: 900px;
+}
+
+.recommend-controls input[type="text"],
+.recommend-controls select,
+.recommend-controls button {
+    padding: 12px 20px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    font-size: 1em;
+    color: #495057;
+    background-color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.recommend-controls input[type="text"] {
+    flex: 2;
+    /* Allow input to take more space */
+    min-width: 250px;
+}
+
+.recommend-controls select {
+    flex: 1;
+    min-width: 150px;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23495057%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13.2-6.5H18.6c-5%200-9.3%201.8-13.2%206.5C1.8%2073.3%200%2077.5%200%2082.5c0%205%201.8%209.3%205.5%2013.2l128%20128c3.9%203.9%208.2%205.5%2013.2%205.5s9.3-1.8%2013.2-5.5l128-128c3.7-3.9%205.5-8.2%205.5-13.2%200-5-1.8-9.2-5.5-13.1z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px;
+    padding-right: 35px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.recommend-controls button {
+    background-color: #28a745;
+    /* Green for action buttons */
+    color: white;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(40, 167, 69, 0.2);
+}
+
+.recommend-controls button:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(40, 167, 69, 0.3);
+}
+
+.recommend-controls button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(40, 167, 69, 0.2);
+}
+
+/* Specific button styles for view modes */
+.recommend-controls button:nth-of-type(2),
+/* Surprise Me! */
+.recommend-controls button:nth-of-type(3) {
+    /* Grid View */
+    background-color: #6c757d;
+    /* Grey for view/surprise buttons */
+    box-shadow: 0 4px 10px rgba(108, 117, 125, 0.2);
+}
+
+.recommend-controls button:nth-of-type(2):hover,
+.recommend-controls button:nth-of-type(3):hover {
+    background-color: #5a6268;
+    box-shadow: 0 6px 15px rgba(108, 117, 125, 0.3);
+}
+
+/* Messages */
+.recommend-message,
+.no-results-message {
+    font-size: 1.2em;
+    color: #dc3545;
+    /* Red for error/no results */
+    margin-top: 20px;
+    padding: 15px 25px;
+    border-radius: 8px;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    text-align: center;
+    width: 100%;
+    max-width: 600px;
+}
+
+.no-results-message {
+    color: #6c757d;
+    background-color: #e2e3e5;
+    border: 1px solid #d6d8db;
+}
+
+
+/* Results Display Area */
 .results {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 25px;
+    width: 100%;
+    max-width: 1200px;
     margin-top: 20px;
 }
 
-.result-card {
-    background: #ffffff;
-    border: 1px solid #e1e4e8;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
-    transition: 0.3s ease-in-out;
+/* Grid View Styles */
+.results.grid-view {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    /* 300px min width for cards */
+    gap: 30px;
+    /* Space between grid cards */
+}
+
+/* List View Styles */
+.results.list-view {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
+    /* Space between list items */
+}
+
+/* Individual Result Card (applies to both grid and list) */
+.result-card {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    border: 1px solid #eaeaef;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* Push buttons to bottom */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .result-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 18px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
 }
 
+/* Image in Card */
+.place-card-image {
+    width: 100%;
+    height: 200px;
+    /* Fixed height for consistency */
+    object-fit: cover;
+    /* Crop image to fit */
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #e0e0e0;
+}
+
+/* Card Content */
 .result-card h3 {
-    font-size: 20px;
     color: #34495e;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
+    font-size: 1.8em;
+    font-weight: 600;
+    line-height: 1.2;
 }
 
 .result-card p {
-    margin: 2px 0;
-    font-size: 14px;
+    font-size: 1em;
     color: #555;
-    text-align: left;
+    margin-bottom: 8px;
 }
 
-.result-card button {
+.result-card p strong {
+    color: #444;
+}
+
+.place-card-desc {
+    font-size: 0.9em;
+    color: #777;
     margin-top: 10px;
-    padding: 10px 14px;
-    font-size: 15px;
-    border-radius: 6px;
+    margin-bottom: 15px;
+    /* Space above buttons */
+    line-height: 1.5;
+    flex-grow: 1;
+    /* Allow description to take available vertical space */
+}
+
+/* Star Rating Display (assuming external component) */
+.result-card .star-rating-display {
+    display: inline-block;
+    /* Adjust if StarRatingDisplay renders a block element */
+    margin-left: 5px;
+}
+
+/* Buttons within Result Card */
+.result-card button {
+    display: block;
+    /* Make buttons stack */
+    width: 100%;
+    padding: 10px 15px;
+    margin-top: 10px;
+    /* Space between buttons */
     border: none;
+    border-radius: 8px;
     cursor: pointer;
-    transition: 0.2s;
+    font-size: 0.95em;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .result-card button:first-of-type {
-    background-color: #2ecc71;
+    /* View Details button */
+    background-color: #4a90e2;
+    /* Blue for details */
     color: white;
 }
 
 .result-card button:first-of-type:hover {
-    background-color: #27ae60;
+    background-color: #357ABD;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .result-card button:last-of-type {
-    background-color: #f39c12;
+    /* Add to Favorites button */
+    background-color: #28a745;
+    /* Green for add to favorites */
     color: white;
 }
 
 .result-card button:last-of-type:hover {
-    background-color: #d68910;
+    background-color: #218838;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* -- existing styles remain unchanged -- */
-
-.recommend-controls {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
-    margin-bottom: 30px;
-    margin-top: -20px;
+.result-card button:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
 }
 
-.recommend-controls input[type="text"],
-.recommend-controls select {
-    padding: 10px 16px;
-    font-size: 15px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    min-width: 200px;
-    outline: none;
-}
-
-.recommend-controls button {
-    padding: 10px 16px;
-    font-size: 15px;
-    border-radius: 8px;
-    background-color: #8e44ad;
-    color: white;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.recommend-controls button:hover {
-    background-color: #732d91;
-}
-
-/* Optional: Different colors for view toggle and surprise button */
-.recommend-controls button:nth-child(3) {
-    background-color: #e67e22;
-}
-
-.recommend-controls button:nth-child(3):hover {
-    background-color: #cf711e;
-}
-
-.recommend-controls button:nth-child(4),
-.recommend-controls button:nth-child(5) {
-    background-color: #1abc9c;
-}
-
-.recommend-controls button:nth-child(4):hover,
-.recommend-controls button:nth-child(5):hover {
-    background-color: #16a085;
-}
-
-/* List view layout */
-.results.list-view {
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-}
-
+/* Adjustments for List View */
 .results.list-view .result-card {
     flex-direction: row;
+    /* Horizontal layout for list items */
     align-items: center;
-    justify-content: space-between;
+    /* Vertically align content */
+    padding: 15px 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    /* Lighter shadow for list items */
+    border: 1px solid #eaeaef;
+}
+
+.results.list-view .place-card-image {
+    width: 120px;
+    /* Smaller image for list view */
+    height: 90px;
+    border-radius: 6px;
+    margin-right: 20px;
+    /* Space to the right of the image */
+    margin-bottom: 0;
+    flex-shrink: 0;
+    /* Prevent image from shrinking */
+}
+
+.results.list-view .result-card h3 {
+    font-size: 1.4em;
     text-align: left;
-    padding: 20px 30px;
+    /* Align text left in list view */
+    margin-bottom: 5px;
 }
 
 .results.list-view .result-card p {
-    flex: 1;
-    margin: 0 10px;
+    font-size: 0.9em;
+    margin-bottom: 3px;
+    text-align: left;
 }
 
-/* Place name stays bold */
-.results.list-view .result-card h3 {
-    flex: 1;
-    margin-right: 20px;
+.results.list-view .place-card-desc {
+    display: none;
+    /* Hide description in list view for brevity */
 }
 
-/* Buttons grouped to right */
+.results.list-view .result-card>div {
+    /* A container for text content in list view */
+    flex-grow: 1;
+    /* Allow text content to take available space */
+}
+
+.results.list-view .result-card .star-rating-display {
+    margin-left: 0;
+    /* Align rating with text in list view */
+}
+
 .results.list-view .result-card button {
+    width: auto;
+    /* Buttons will naturally size */
+    padding: 8px 15px;
     margin-top: 0;
     margin-left: 10px;
+    /* Space between text content and buttons */
+    flex-shrink: 0;
+    /* Prevent buttons from shrinking */
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+
+    .recommend-form,
+    .recommend-controls {
+        flex-direction: column;
+        /* Stack form elements vertically */
+        align-items: stretch;
+        /* Stretch elements to full width */
+        padding: 20px;
+    }
+
+    .recommend-form select,
+    .recommend-form button,
+    .recommend-controls input[type="text"],
+    .recommend-controls select,
+    .recommend-controls button {
+        min-width: unset;
+        /* Remove min-width constraints */
+        width: 100%;
+        /* Make them full width */
+    }
+
+    .results.grid-view {
+        grid-template-columns: 1fr;
+        /* Single column on small screens */
+    }
+
+    .results.list-view .result-card {
+        flex-direction: column;
+        /* Stack vertically for list view on small screens */
+        align-items: center;
+        text-align: center;
+    }
+
+    .results.list-view .place-card-image {
+        width: 100%;
+        height: 180px;
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+
+    .results.list-view .result-card h3,
+    .results.list-view .result-card p {
+        text-align: center;
+    }
+
+    .results.list-view .result-card button {
+        margin-left: 0;
+    }
 }

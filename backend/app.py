@@ -214,7 +214,8 @@ def initialize_database():
     vectorizer = TfidfVectorizer(stop_words='english')
     tfidf_matrix = vectorizer.fit_transform(df_places_global['combined_features'])
     print(f"✅ TF-IDF model initialized globally. Matrix shape: {tfidf_matrix.shape}")
-
+    print("Columns in dataset:", df_places_global.columns.tolist())
+    print("Columns with repr:", [repr(col) for col in df_places_global.columns])
 
 @app.route('/')
 def home():

@@ -1,33 +1,50 @@
 .static-page-container {
-    max-width: 800px;
-    margin: 40px auto;
-    padding: 20px;
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    font-family: 'Segoe UI', sans-serif;
-  }
-  
-  .static-page-container h1 {
-    font-size: 32px;
-    margin-bottom: 20px;
-    color: #2c3e50;
-  }
-  
-  .static-page-container p {
-    font-size: 16px;
-    color: #444;
-    line-height: 1.6;
-  }
-  
-  .contact-details p {
-    margin: 10px 0;
-    font-size: 16px;
-  }
-  
-  .static-page-container ul {
-    list-style: disc;
-    padding-left: 20px;
-    margin: 20px 0;
-  }
-  
+  padding: 6rem 2rem 3rem 2rem;
+  /* Top padding prevents navbar overlap */
+  max-width: 900px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  line-height: 1.6;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
+}
+
+.static-page-container h1 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #2c3e50;
+  text-align: center;
+}
+
+.static-page-container p {
+  font-size: 1.05rem;
+  margin-bottom: 1rem;
+}
+
+.contact-details {
+  margin-top: 2rem;
+  background-color: #f8f9fa;
+  padding: 1.5rem;
+  border-left: 4px solid #3498db;
+  border-radius: 6px;
+}
+
+.contact-details p {
+  margin: 0.5rem 0;
+  font-weight: 500;
+}
+
+.static-page-container ul {
+  list-style: disc inside;
+  padding-left: 1rem;
+  margin: 1rem 0 1.5rem 0;
+}
+
+.static-page-container ul li {
+  margin-bottom: 0.5rem;
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: #444;
+}

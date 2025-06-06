@@ -5,43 +5,52 @@ import './About.css';
 const About = () => {
   return (
     <div className="about-container">
-      <div className="about-content">
-        <h1>About TravelMate 🌍</h1>
+       <section className="about-section">
+        <h2 className="about-heading">🌐 Why Choose WanderGo?</h2>
         <p>
-          TravelMate is one of the fastest-growing online travel platforms in Asia, offering travelers a wide range of
-          curated destinations, personalized recommendations, and seamless travel planning tools. From heritage sites to
-          hidden gems, we help you explore India with ease.
+          At <strong>WanderGo</strong>, we’re more than just a travel recommendation platform — we’re your companion on every step of the journey.
+          Our goal is to empower travelers with <em>smart, data-driven recommendations</em> tailored to your interests, preferences, and travel history.
+          With a hybrid recommendation engine combining collaborative filtering, content-based techniques, and user reviews, WanderGo ensures
+          <strong> every suggestion feels handpicked just for you</strong>.
         </p>
+        <p>
+          Whether you're discovering places nearby or planning a cross-country escape, we help you <strong>find, save, and organize</strong>
+          your ideal destinations with ease.
+        </p>
+      </section>
 
+      <section className="about-section alternate">
+        <h2 className="about-heading">🤝 Community-Driven Travel</h2>
         <p>
-          With hundreds of travel partners across the country and a rich selection of activities and accommodations,
-          TravelMate ensures that every type of traveler — solo, family, or group — can find something that suits their
-          needs, budget, and travel style.
+          WanderGo believes in the power of the community. Our platform thrives on traveler reviews, shared experiences, and user-generated favorites.
+          You can rate, review, and recommend locations — helping fellow explorers make the most of their adventures.
         </p>
+        <p>
+          <strong>Join the WanderGo community</strong> and turn your travel stories into inspiration for others!
+        </p>
+      </section>
 
+      <section className="about-section">
+        <h2 className="about-heading">🌱 Responsible Travel</h2>
         <p>
-          Whether you're looking for a spiritual retreat, a beachside escape, a mountain adventure, or a cultural
-          exploration, TravelMate makes it easy to plan, personalize, and enjoy every journey.
+          We promote <em>eco-conscious tourism</em> and encourage travelers to respect local cultures, traditions, and environments.
+          Many of our listed destinations include sustainability scores and tips on how to travel responsibly.
         </p>
+        <p>
+          Because exploring the world should never come at the cost of damaging it.
+        </p>
+      </section>
 
-        <h2>Our Headquarters</h2>
+      <section className="about-section alternate">
+        <h2 className="about-heading">💡 Powered by Innovation</h2>
         <p>
-          This website is operated by TravelMate Technologies Pvt. Ltd., with its head office located at:
-          <br />
-          <strong>2025 TravelMate Way, Bengaluru, Karnataka 560001, India.</strong>
+          Our platform uses the latest in <strong>machine learning and cloud technologies</strong> to constantly improve your travel experience.
+          From real-time data to smart itinerary planning, WanderGo is built to adapt, learn, and grow with you.
         </p>
-
-        <h2>Legal Information</h2>
         <p>
-          TravelMate Technologies Pvt. Ltd. is a registered travel service provider in India under applicable tourism and
-          commerce regulations.
+          Your travel journey is unique — and our tech makes sure your experience is too.
         </p>
-
-        <p>
-          TravelMate is proudly a part of the growing TravelMate Group, which is dedicated to making travel smarter,
-          safer, and more enjoyable.
-        </p>
-      </div>
+      </section>
     </div>
   );
 };

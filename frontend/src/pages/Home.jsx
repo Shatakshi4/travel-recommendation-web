@@ -190,7 +190,7 @@ const Home = () => {
           <p onClick={() => navigate('/about')}>About Us</p>
           <p onClick={() => navigate('/contact')}>Contact Us</p>
           <p onClick={() => navigate('/privacy')}>Privacy Policy</p>
-          <p onClick={() => navigate('/terms')}>Terms & Conditions</p>
+          <p onClick={() => navigate('/TermsAndConditions')}>Terms & Conditions</p>
         </div>
         <div className="footer-disclaimer">
           © 2025 TravelMate Technologies Pvt. Ltd., a TravelMate Group company. All rights reserved. TravelMate and the TravelMate Logo are trademarks or registered trademarks of TravelMate Technologies Pvt. Ltd.

@@ -23,6 +23,7 @@ import SearchResultsPage from './pages/SearchResultsPage';
 import AdvancedRecommend from './pages/AdvancedRecommend';
 import UserPreferences from './pages/UserPreferences';
 import PersonalizedRecommendations from './pages/PersonalizedRecommendations';
+import TermsAndConditions from './pages/TermsAndConditions';
 // import Profile from './pages/Profile';
 // import EditProfile from './pages/EditProfile';
 
@@ -91,6 +92,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<ContactUs />} />
 <Route path="/privacy" element={<PrivacyPolicy />} />
+<Route path="/TermsAndConditions" element={<TermsAndConditions />} />
       </Routes>
     </Router>
   );

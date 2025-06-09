@@ -3,7 +3,8 @@
     font-family: 'Arial', sans-serif;
     max-width: 900px; /* Reduced max-width for a smaller overall size */
     margin: 15px auto; /* Slightly reduced vertical margin */
-    padding: 15px; /* Reduced padding */
+    padding: 15px;
+    padding-top:80px;/* Reduced padding */
     background-color: #f9f9f9;
     border-radius: 10px; /* Slightly less rounded corners */
     box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1); /* Softer shadow */
@@ -17,6 +18,7 @@
     align-items: center;
     padding: 10px 0; /* Reduced padding */
     border-bottom: 1px solid #eee;
+    /* margin-top: 40; */
     margin-bottom: 15px; /* Reduced bottom margin */
     position: sticky;
     top: 0;
@@ -28,7 +30,7 @@
   .sticky-header h2 {
     flex-grow: 1; /* Allow title to take available space */
     text-align: center;
-    margin: 0 10px; /* Reduced horizontal margin around title */
+    margin: 0 20px; /* Reduced horizontal margin around title */
     color: #2c3e50;
     font-size: 1.8em; /* Reduced title font size */
     font-weight: 700;
@@ -111,6 +113,7 @@
   .info-card {
     background-color: #ffffff;
     padding: 20px; /* Reduced padding */
+    /* margin-top: 0; */
     border-radius: 8px; /* Reduced border-radius */
     box-shadow: 0 1px 8px rgba(0, 0, 0, 0.06); /* Softer shadow */
     border-left: 4px solid #3498db; /* Slightly thinner accent border */
@@ -362,5 +365,40 @@
     .view-more-photos-link {
       font-size: 0.8em;
       padding: 8px 15px;
+    }
+  }
+
+  .popup-message {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    background-color: #4caf50;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    z-index: 9999;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+    font-weight: bold;
+    animation: fadeInOut 2.5s ease-in-out forwards;
+  }
+  
+  @keyframes fadeInOut {
+    0% {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+  
+    10% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  
+    90% {
+      opacity: 1;
+    }
+  
+    100% {
+      opacity: 0;
+      transform: translateY(-10px);
     }
   }

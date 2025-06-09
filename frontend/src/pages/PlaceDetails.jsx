@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import './PlaceDetails.css';
 import axios from 'axios';
 import ReviewsSection from './ReviewsSection';
@@ -11,12 +11,17 @@ const PlaceDetails = () => {
   const navigate = useNavigate();
   const initialPlace = location.state?.place;
   const token = localStorage.getItem('token');
+  const { placeName: placeNameFromParams } = useParams();
+
+  // const { placeName } = useParams();
 
   const [placeDetails, setPlaceDetails] = useState(null);
   const [loadingPlace, setLoadingPlace] = useState(true);
   const [placeError, setPlaceError] = useState(null);
+  const [favoriteStatus, setFavoriteStatus] = useState(""); // 'added' or 'exists'
+  const [showFavoriteMsg, setShowFavoriteMsg] = useState(false);
 
-  const placeName = initialPlace?.Place;
+  const placeName = initialPlace?.Place || placeNameFromParams;
 
   const logActivity = useCallback(async (placeId, activityType) => {
     if (!token) return;
@@ -34,6 +39,32 @@ const PlaceDetails = () => {
       console.error('Error logging activity:', err);
     }
   }, [token]);
+
+   
+const handleAddToFavorites = async () => {
+  if (!token || !placeDetails?.Place || !placeDetails?.State) return;
+
+  try {
+    const response = await axios.post('http://127.0.0.1:5000/favorite', {
+      place_name: placeDetails.Place,
+      state: placeDetails.State,
+    }, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+
+    if (response.data?.already_added) {
+      setFavoriteStatus("exists");
+    } else {
+      setFavoriteStatus("added");
+    }
+
+    setShowFavoriteMsg(true);
+    setTimeout(() => setShowFavoriteMsg(false), 2500);
+  } catch (err) {
+    console.error('Error adding to favorites:', err);
+  }
+};
+
 
   useEffect(() => {
     const fetchFullPlaceDetails = async () => {
@@ -78,16 +109,19 @@ const PlaceDetails = () => {
         </button>
         <h2>{placeDetails.Place}</h2>
         {token && (
-          <button
-            onClick={() => {
-              console.log(`Adding ${placeDetails.Place} to favorites`);
-            }}
-            className="favorite-button"
-          >
-            ❤️ Favorite
-          </button>
-        )}
+  <button onClick={handleAddToFavorites} className="favorite-button">
+    ❤️ Favorite
+  </button>
+)}
+
       </div>
+      {showFavoriteMsg && (
+  <div className="popup-message">
+    {favoriteStatus === "added"
+      ? "✅ Added to favorites!"
+      : "⚠️ Already in favorites!"}
+  </div>
+)}
 
       <div className="image-container">
         <img

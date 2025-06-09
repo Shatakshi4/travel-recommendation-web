@@ -634,10 +634,24 @@ def add_favorite():
 
     conn = get_db_connection()
     try:
-        conn.execute('INSERT OR IGNORE INTO favorites (username, place_name, state) VALUES (?, ?, ?)',
-                     (username, place_name, state))
+        # Check if already in favorites
+        cursor = conn.execute(
+            'SELECT 1 FROM favorites WHERE username = ? AND place_name = ? AND state = ?',
+            (username, place_name, state)
+        )
+        exists = cursor.fetchone()
+
+        if exists:
+            return jsonify({"msg": "Already added", "already_added": True}), 200
+
+        # If not exists, insert it
+        conn.execute(
+            'INSERT INTO favorites (username, place_name, state) VALUES (?, ?, ?)',
+            (username, place_name, state)
+        )
         conn.commit()
-        return jsonify({"msg": "Favorite added"})
+        return jsonify({"msg": "Favorite added", "already_added": False}), 200
+
     finally:
         conn.close()
 
@@ -885,6 +899,15 @@ def get_user_preferences():
     if prefs:
         return jsonify(dict(prefs)), 200
     return jsonify({}), 200
+
+@app.route('/recommend/random', methods=['GET'])
+def recommend_random():
+    conn = get_db_connection()
+    cursor = conn.execute("SELECT * FROM places ORDER BY RANDOM() LIMIT 20")
+    rows = cursor.fetchall()
+    conn.close()
+    return jsonify([dict(row) for row in rows])
+
 
 @app.route('/api/user_preferences', methods=['POST'])
 @jwt_required()

@@ -32,8 +32,7 @@ function App() {
   const [results, setResults] = useState([]);
 
   const handleSubmit = async (formData) => {
-    console.log('Form submitted:', formData);
-    
+    console.log('Form submitted:', formData); 
     try {
       const response = await fetch('http://127.0.0.1:5000/recommend', {
         method: 'POST',
@@ -73,7 +72,8 @@ function App() {
   }
 />
  <Route path="/" element={<Home />} />
-        <Route path="/place-details" element={<PlaceDetails />} />
+ <Route path="/placedetails/:placeName" element={<PlaceDetails />} />
+
         <Route path="/search-results" element={<SearchResultsPage />} /> 
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/places" element={<Places />} />

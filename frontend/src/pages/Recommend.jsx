@@ -18,12 +18,27 @@ const Recommend = () => {
   const [viewMode, setViewMode] = useState('grid');
   const [searchQuery, setSearchQuery] = useState(''); // This is for client-side filtering
   const navigate = useNavigate();
+  const [showFavoriteMsg, setShowFavoriteMsg] = useState(false);
+  const [favoriteStatus, setFavoriteStatus] = useState(""); // 'added' or 'exists'
 
   useEffect(() => {
     fetch('http://localhost:5000/states')
       .then(res => res.json())
-      .then(data => setStates(data));
+      .then(data => setStates(data))
+      .catch(error => console.error('Error loading states:', error));
   }, []);
+  
+  useEffect(() => {
+    fetch('http://localhost:5000/recommend/random')
+      .then(res => res.json())
+      .then(data => {
+        setResults(data);
+      })
+      .catch(error => {
+        console.error('Error loading default recommendations:', error);
+      });
+  }, []);
+  
 
   useEffect(() => {
     if (form.state) {
@@ -74,13 +89,12 @@ const Recommend = () => {
 
   const addToFavorites = async (placeName, state) => {
     const token = localStorage.getItem('token');
-
+  
     if (!token) {
-      // Using console.log instead of alert for better Canvas compatibility
       console.log('Please login to add to favorites.');
       return;
     }
-
+  
     try {
       const res = await fetch('http://localhost:5000/favorite', {
         method: 'POST',
@@ -90,14 +104,23 @@ const Recommend = () => {
         },
         body: JSON.stringify({ place_name: placeName, state: state })
       });
-
+  
       const data = await res.json();
-      console.log(data.msg || 'Added to favorites'); // Using console.log
+  
+      if (data.already_added) {
+        setFavoriteStatus("exists");
+      } else {
+        setFavoriteStatus("added");
+      }
+  
+      setShowFavoriteMsg(true);
+      setTimeout(() => setShowFavoriteMsg(false), 2500);
     } catch (error) {
       console.error(error);
-      console.log('Error adding to favorites'); // Using console.log
+      console.log('Error adding to favorites');
     }
   };
+  
 
   const handleSort = (sortBy) => {
     let sorted = [...results];
@@ -111,12 +134,15 @@ const Recommend = () => {
     }
     setResults(sorted);
   };
-
   const showRandom = () => {
+    if (results.length === 0) {
+      setMessage("Please search first to enable 'Surprise Me'.");
+      return;
+    }
     const shuffled = [...results].sort(() => 0.5 - Math.random());
     setResults(shuffled.slice(0, 5));
   };
-
+  
   const resetFilters = () => {
     setForm({ state: '', city: '', type: '' });
     setResults([]); // Clear results when filters are reset
@@ -133,8 +159,10 @@ const Recommend = () => {
         (place.place_desc && place.place_desc.toLowerCase().includes(searchQuery.toLowerCase())) ||
         (place.Type && place.Type.toLowerCase().includes(searchQuery.toLowerCase()))
       )
-    : results; // If searchQuery is empty, display all fetched results
-
+    : results;// If searchQuery is empty, display all fetched results
+   
+    
+    
   return (
     <div className="recommend-container">
       <h2>Find Travel Recommendations</h2>
@@ -162,7 +190,7 @@ const Recommend = () => {
       <div className="recommend-controls">
         <input
           type="text"
-          placeholder="Filter results by name/city/state/type..." // Changed placeholder for clarity
+          placeholder="Filter results by city/state/type..." // Changed placeholder for clarity
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
@@ -174,7 +202,8 @@ const Recommend = () => {
           <option value="state">State</option>
         </select>
 
-        <button onClick={showRandom}>Surprise Me!</button>
+        <button onClick={showRandom} disabled={results.length === 0}>Surprise Me!</button>
+
         <button onClick={() => setViewMode('grid')}>Grid View</button>
         <button onClick={() => setViewMode('list')}>List View</button>
       </div>
@@ -221,6 +250,15 @@ const Recommend = () => {
           </div>
         ))}
       </div>
+      
+      {showFavoriteMsg && (
+  <div className="popup-message">
+    {favoriteStatus === "added"
+      ? "✅ Added to favorites!"
+      : "⚠️ Already in favorites!"}
+  </div>
+)}
+
     </div>
   );
 };

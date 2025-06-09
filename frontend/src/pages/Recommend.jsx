@@ -28,16 +28,16 @@ const Recommend = () => {
       .catch(error => console.error('Error loading states:', error));
   }, []);
   
-  useEffect(() => {
-    fetch('http://localhost:5000/recommend/random')
-      .then(res => res.json())
-      .then(data => {
-        setResults(data);
-      })
-      .catch(error => {
-        console.error('Error loading default recommendations:', error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   fetch('http://localhost:5000/recommend/random')
+  //     .then(res => res.json())
+  //     .then(data => {
+  //       setResults(data);
+  //     })
+  //     .catch(error => {
+  //       console.error('Error loading default recommendations:', error);
+  //     });
+  // }, []);
   
 
   useEffect(() => {
